@@ -1,0 +1,225 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    Mage
+ * @package     GlobalExperts_Hypercharge
+ * @copyright   Copyright (c) 2014 Global Experts GmbH (http://www.globalexperts.ch/)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+-->
+<config>
+    <modules>
+        <GlobalExperts_Hypercharge>            
+            <version>0.1.0</version>
+        </GlobalExperts_Hypercharge>
+    </modules>
+ 
+    <global>        
+        <blocks>
+            <bithypercharge>
+                <class>GlobalExperts_Hypercharge_Block</class>
+            </bithypercharge>
+        </blocks>        
+        <helpers>
+            <bithypercharge>
+                <class>GlobalExperts_Hypercharge_Helper</class>
+            </bithypercharge>
+        </helpers>         
+        <models>
+            <bithypercharge>
+                <class>GlobalExperts_Hypercharge_Model</class>
+            </bithypercharge>
+        </models>         
+        <resources> 
+            <bithypercharge_setup>                
+                <setup>                    
+                    <module>GlobalExperts_Hypercharge</module>
+                </setup>                
+                <connection>                    
+                    <use>core_setup</use>
+                </connection>
+            </bithypercharge_setup>
+            <bithypercharge_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </bithypercharge_write>
+            <bithypercharge_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </bithypercharge_read>
+        </resources>
+    </global>
+    
+    <frontend>
+        <secure_url>
+            <bit-hypercharge_redirect>/bit-hypercharge/redirect/</bit-hypercharge_redirect>
+            <bit-hypercharge_wpfredirect>/bit-hypercharge/wpfredirect/</bit-hypercharge_wpfredirect>
+        </secure_url>
+        <layout>
+            <updates>
+                <bithypercharge>
+                    <file>hypercharge.xml</file>
+                </bithypercharge>
+            </updates>
+        </layout>
+        <routers>            
+            <bithypercharge>
+                <use>standard</use>
+                <args>
+                    <module>GlobalExperts_Hypercharge</module>
+                    <frontName>bit-hypercharge</frontName>
+                </args>
+            </bithypercharge>
+        </routers> 
+        <translate>
+            <modules>
+                <GlobalExperts_Hypercharge>
+                    <files>
+                        <default>GlobalExperts_Hypercharge.csv</default>
+                    </files>
+                </GlobalExperts_Hypercharge>
+            </modules>
+        </translate>
+    </frontend>
+    
+    <adminhtml>
+        <translate>
+            <modules>
+                <GlobalExperts_Hypercharge>
+                    <files>
+                        <default>GlobalExperts_Hypercharge.csv</default>
+                    </files>
+                </GlobalExperts_Hypercharge>
+            </modules>
+        </translate>
+    </adminhtml>
+ 
+    <default>
+        <payment> 
+            <hypercharge_mobile>
+                <active>0</active>                
+                <model>bithypercharge/mobile</model>                
+                <order_status>processing</order_status>                
+            </hypercharge_mobile>            
+            <hypercharge_mobile_cc>
+                <active>0</active>                
+                <model>bithypercharge/cc</model>                
+                <order_status>processing</order_status>                
+                <title>Credit Card (Hypercharge)</title> 
+                <cctypes>VI,MC,AE,DI,JCB,OT</cctypes>
+                <payment_action>authorize_capture</payment_action>
+                <allowspecific>0</allowspecific>
+                <test>1</test>
+            </hypercharge_mobile_cc>
+            <hypercharge_mobile_debit>
+                <active>0</active>                
+                <model>bithypercharge/debit</model>                
+                <order_status>processing</order_status>
+                <title>Direct Debit (Hypercharge)</title>                 
+                <payment_action>authorize_capture</payment_action>
+                <allowspecific>0</allowspecific>
+                <test>1</test>
+            </hypercharge_mobile_debit>
+            <hypercharge_wpf_ideal>
+                <active>0</active>                
+                <model>bithypercharge/ideal</model>                
+                <order_status>processing</order_status>
+                <title>IDeal (Hypercharge)</title>                
+                <allowspecific>0</allowspecific>
+                <mode>1</mode>
+                <use_iframe>1</use_iframe>      
+                <check_address>0</check_address>          
+            </hypercharge_wpf_ideal>
+            <hypercharge_wpf_paypal>
+                <active>0</active>                
+                <model>bithypercharge/paypal</model>                
+                <order_status>processing</order_status>
+                <title>PayPal (Hypercharge)</title>                
+                <allowspecific>0</allowspecific>
+                <mode>1</mode>
+                <use_iframe>1</use_iframe>      
+                <check_address>0</check_address>          
+            </hypercharge_wpf_paypal>
+            <hypercharge_wpf_purchase_on_account>
+                <active>0</active>                
+                <model>bithypercharge/purchaseaccount</model>                
+                <order_status>processing</order_status>
+                <title>Purchase On Account (Hypercharge)</title>                
+                <allowspecific>0</allowspecific>
+                <mode>1</mode>
+                <use_iframe>1</use_iframe> 
+                <check_address>0</check_address>        
+            </hypercharge_wpf_purchase_on_account>
+            <hypercharge_wpf_sofort>
+                <active>0</active>                
+                <model>bithypercharge/sofort</model>                
+                <order_status>processing</order_status>
+                <title>Direct Pay24 (Hypercharge)</title>                
+                <allowspecific>0</allowspecific>
+                <mode>1</mode>
+                <use_iframe>1</use_iframe> 
+                <check_address>0</check_address>
+            </hypercharge_wpf_sofort>
+            <hypercharge_wpf_giropay>
+                <active>0</active>                
+                <model>bithypercharge/giropay</model>                
+                <order_status>processing</order_status>
+                <title>Giro Pay (Hypercharge)</title>                
+                <allowspecific>0</allowspecific>
+                <mode>1</mode>
+                <use_iframe>1</use_iframe> 
+                <check_address>0</check_address>
+            </hypercharge_wpf_giropay>
+            <hypercharge_wpf_pay_in_advance>
+                <active>0</active>                
+                <model>bithypercharge/payinadvance</model>                
+                <order_status>processing</order_status>
+                <title>Pay In Advance (Hypercharge)</title>                
+                <allowspecific>0</allowspecific>
+                <mode>1</mode>
+                <use_iframe>1</use_iframe> 
+                <check_address>0</check_address>
+            </hypercharge_wpf_pay_in_advance>
+            <hypercharge_wpf_pay_safe>
+                <active>0</active>                
+                <model>bithypercharge/paysafe</model>                
+                <order_status>processing</order_status>
+                <title>Pay Safe Card (Hypercharge)</title>                
+                <allowspecific>0</allowspecific>
+                <mode>1</mode>
+                <use_iframe>1</use_iframe> 
+                <check_address>0</check_address>
+            </hypercharge_wpf_pay_safe>
+            <hypercharge_wpf_payment_on_delivery>
+                <active>0</active>                
+                <model>bithypercharge/paymentondelivery</model>                
+                <order_status>processing</order_status>
+                <title>Payment On Delivery (Hypercharge)</title>                
+                <allowspecific>0</allowspecific>
+                <mode>1</mode>
+                <use_iframe>1</use_iframe> 
+                <check_address>0</check_address>
+            </hypercharge_wpf_payment_on_delivery>
+        </payment>
+    </default>
+</config>
