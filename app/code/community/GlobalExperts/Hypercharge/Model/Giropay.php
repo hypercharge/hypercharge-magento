@@ -30,6 +30,9 @@ class GlobalExperts_Hypercharge_Model_Giropay extends GlobalExperts_Hypercharge_
     // @var string [a-z0-9_]
     protected $_code = 'hypercharge_wpf_giropay';
     
+    // Define payment block form
+    protected $_formBlockType = 'bithypercharge/form_giropay';
+    
     public function getTransactionType() {
         return 'giro_pay_sale';
     }

@@ -32,14 +32,17 @@
                 <type>skin_js</type>
                 <name>hypercharge/js/jquery.min.1.11.0.js</name>
                 <params/>
-            </action> 
-        </reference>
-        <reference name="head">
+            </action>
             <action method="addItem">
                 <type>skin_js</type>
                 <name>hypercharge/js/hypercharge.js</name>
                 <params/>
             </action>
-        </reference>        
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>hypercharge/css/hypercharge.css</name>
+                <params/>
+            </action> 
+        </reference>
     </checkout_onepage_index>
 </layout>

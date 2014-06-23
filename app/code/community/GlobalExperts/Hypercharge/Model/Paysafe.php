@@ -30,6 +30,9 @@ class GlobalExperts_Hypercharge_Model_Paysafe extends GlobalExperts_Hypercharge_
     // @var string [a-z0-9_]
     protected $_code = 'hypercharge_wpf_pay_safe';
     
+    // Define payment block form
+    protected $_formBlockType = 'bithypercharge/form_paysafe';
+    
     public function getTransactionType() {
         return 'pay_safe_card_sale';
     }

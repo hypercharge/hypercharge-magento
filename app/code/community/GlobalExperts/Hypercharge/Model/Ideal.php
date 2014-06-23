@@ -30,6 +30,9 @@ class GlobalExperts_Hypercharge_Model_Ideal extends GlobalExperts_Hypercharge_Mo
     // @var string [a-z0-9_]
     protected $_code = 'hypercharge_wpf_ideal';
     
+    // Define payment block form
+    protected $_formBlockType = 'bithypercharge/form_ideal';
+    
     public function getTransactionType() {
         return 'ideal_sale';
     }

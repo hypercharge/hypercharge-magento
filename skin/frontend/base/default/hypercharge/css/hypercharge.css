@@ -1,0 +1,39 @@
+span.hyper_title {
+    width: 140px;    
+    display: inline-block;
+}
+span.hyper_cc,
+span.hyper_ideal,
+span.hyper_paypal, 
+span.hyper_giropay,
+span.hyper_paysafe, 
+span.hyper_sofort {
+    height: 20px;
+    padding-top: 3px;
+    margin-left: 15px;
+    display: inline-block;
+}
+span.hyper_cc {
+    width: 208px;    
+    background: url('../images/hypers.png') 0 -1px;
+}
+span.hyper_ideal {
+    width: 30px;    
+    background: url('../images/hypers.png') 0 52px;    
+}
+span.hyper_paypal {
+    width: 50px;
+    background: url('../images/hypers.png') 0 147px;
+}
+span.hyper_giropay {
+    width: 40px;
+    background: url('../images/hypers.png') 0 84px;
+}
+span.hyper_paysafe {
+    width: 80px;
+    background: url('../images/hypers.png') 0 20px;
+}
+span.hyper_sofort {
+    width: 50px;
+    background: url('../images/hypers.png') 0 115px;
+}
