@@ -7,15 +7,43 @@ span.hyper_ideal,
 span.hyper_paypal, 
 span.hyper_giropay,
 span.hyper_paysafe, 
-span.hyper_sofort {
+span.hyper_sofort,
+span.hyper_cc_ae,
+span.hyper_cc_vi, 
+span.hyper_cc_mc,
+span.hyper_cc_jcb,
+span.hyper_cc_di {
     height: 20px;
-    padding-top: 3px;
-    margin-left: 15px;
+    padding-top: 3px;    
     display: inline-block;
 }
-span.hyper_cc {
-    width: 208px;    
-    background: url('../images/hypers.png') 0 -1px;
+span.hyper_cc,
+span.hyper_ideal,
+span.hyper_paypal, 
+span.hyper_giropay,
+span.hyper_paysafe, 
+span.hyper_sofort {
+    margin-left: 15px;
+}
+span.hyper_cc_ae {
+    width: 30px; 
+    background: url('../images/hypers.png') 30px -1px;
+}
+span.hyper_cc_vi {
+    width: 46px;   
+    background: url('../images/hypers.png') 0px -1px;
+}
+span.hyper_cc_mc {
+    width: 46px;  
+    background: url('../images/hypers.png') 161px -1px;
+}
+span.hyper_cc_jcb {
+    width: 40px;   
+    background: url('../images/hypers.png') 116px -1px;
+}
+span.hyper_cc_di {
+    width: 40px;   
+    background: url('../images/hypers.png') 76px -1px;
 }
 span.hyper_ideal {
     width: 30px;    
