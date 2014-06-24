@@ -28,7 +28,7 @@
 <config>
     <modules>
         <GlobalExperts_Hypercharge>            
-            <version>0.1.0</version>
+            <version>1.0.0</version>
         </GlobalExperts_Hypercharge>
     </modules>
  
