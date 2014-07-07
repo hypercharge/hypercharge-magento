@@ -243,6 +243,13 @@ class GlobalExperts_Hypercharge_Model_Mobile extends Mage_Payment_Model_Method_A
                 ->setIsTransactionClosed(0);
             $order->registerCancellation('Payment error.', false);
             $order->save();
+            // send mail for POA with Payolution
+            if ($paymentMethod == 'GlobalExperts_Hypercharge_Model_Mobilepurchaseaccount') {
+	        $comment = Mage::getStoreConfig('payment/hypercharge_mobile_purchase_on_account/errormsg');
+                $order->addStatusToHistory($order->getStatus(), $comment, false);
+                $order->sendOrderUpdateEmail(true, $comment); 
+                $order->save();
+            }            
             return $xml;
         }
         
