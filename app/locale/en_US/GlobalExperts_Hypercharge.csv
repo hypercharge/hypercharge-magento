@@ -5,5 +5,7 @@
 "Credit Card Number","Credit Card Number"
 "Credit Card Type","Credit Card Type"
 "Expiration Date","Expiration Date"
+"For this payment method the shipping address must be the same as billing address.","For this payment method the shipping address must be the same as billing address."
+"For this payment method you must be at least 18 years old.","For this payment method you must be at least 18 years old."
 "Name on Card","Name on Card"
 "What is this?","What is this?"

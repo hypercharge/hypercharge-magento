@@ -1,3 +1,9 @@
+function updateInput(fromInput, toInput) {
+	var fromElem = document.getElementById(fromInput);
+	var toElem = document.getElementById(toInput);
+	toElem.value = fromElem.value;
+}
+
 Hyper = Class.create({
     initialize: function () {
         // This variable is used for storing fields values on change into JS object
@@ -61,7 +67,11 @@ Hyper = Class.create({
     // These methods are invoked for settings
     setSubmitUrl: function(url) {
         this.submitUrl = url;
-    },    
+    },
+    // Set Shipping Address
+    setShippingAddress: function(shippingAddress) {
+        this.shippingAddress = shippingAddress;
+    },
     setPaymentMethod: function(method) {
         this.paymentMethod = method;
     },
@@ -97,8 +107,20 @@ Hyper = Class.create({
         var json = '{ "payment": { ';
         for (var i= 0, l=fields.length; i < l; i ++) {
             json += "\"" + fields[i] + "\" : \"" + this.storedFields.get(fields[i]) + "\",";
+            // extra check for Purchase On Account
+	    // set risk parameters
+	    if (fields[i] == 'birthday'){
+       		json += "\"risk_params\":{\""+fields[i]+"\":\"" + this.storedFields.get(fields[i]) + "\"},";
+       	    }
         }
-        json += "\"payment_method\" : \"" + this.paymentMethod + "\" } }";        
+        var shippingAddress = this.shippingAddress;
+        if (shippingAddress) {
+            json += this.shippingAddress;
+            // get dob
+            var dob = document.getElementById('poa-dob').value;            
+            json += "\"risk_params\":{\"birthday\":\"" + dob + "\"},";
+        }                
+        json += "\"payment_method\" : \"" + this.paymentMethod + "\" } }";
         var data = json.evalJSON(true); 
         var successUrl = this.successUrl;
         var errorUrl = this.errorUrl;
@@ -161,6 +183,11 @@ Hyper = Class.create({
         // At this point you send customer to PSP url,
         // that should return him back to your website afterwards.
         this.form.submit();
+    },
+    updateInput: function (fromInput, toInput) {
+        var fromElem = document.getElementById(fromInput);
+        var toElem = document.getElementById(toInput);
+        toElem.value = fromElem.value;
     }
 });
 // Our class singleton
@@ -205,3 +232,23 @@ Hyper.ReviewRegister = Class.create({
 });
 // Invoke ReviewRegister class routines
 new Hyper.ReviewRegister();
+
+Validation.add('validate-poa-age','For this payment method you must be at least 18 years old.',function(v) {
+    if (v != '') {
+        var dateParts = v.split("-");            
+        var dob = new Date(dateParts[0], dateParts[1]-1, dateParts[2]);
+        var now = new Date();
+        age = now - dob;            
+        // get 18 years ago date
+        var compareDate = new Date(now.getFullYear()-18, now.getMonth(), now.getDate());
+        age18 = now - compareDate;                        
+        if (age > age18) {
+            return true;
+        }
+        return false;
+    }
+    return false;
+}); 
+Validation.add('required-agreement','You must agree to the terms and conditions of this payment method.',function(v) {
+    return !Validation.get('IsEmpty').test(v);
+});

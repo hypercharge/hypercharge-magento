@@ -65,3 +65,6 @@ span.hyper_sofort {
     width: 50px;
     background: url('../images/hypers.png') 0 115px;
 }
+.poa-dob select {
+    max-width: 90%;
+}

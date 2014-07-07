@@ -37,4 +37,30 @@ class GlobalExperts_Hypercharge_Helper_Data extends Mage_Payment_Helper_Data {
         }
     }
     
+    /**
+     * Check if billing address is the same as shipping address
+     * 
+     * @param type $billingAddress
+     * @param type $shippingAddress
+     * @return boolean
+     */
+    public function checkAddresses($billingAddress, $shippingAddress) {
+        $sameAddresses = false;
+        if ($shippingAddress) {
+            // check if same addresses
+            if (
+                    $billingAddress->getFirstname() == $shippingAddress->getFirstname()
+                    && $billingAddress->getLastname() == $shippingAddress->getLastname()
+                    && $billingAddress->getStreet(1) == $shippingAddress->getStreet(1)
+                    && $billingAddress->getPostcode() == $shippingAddress->getPostcode()
+                    && $billingAddress->getCity() == $shippingAddress->getCity()
+                    && $billingAddress->getRegionCode() == $shippingAddress->getRegionCode()
+                    && $billingAddress->getCountry() == $shippingAddress->getCountry()
+            ) {
+                $sameAddresses = true;
+            }
+        }
+        return $sameAddresses;
+    }
+    
 }
