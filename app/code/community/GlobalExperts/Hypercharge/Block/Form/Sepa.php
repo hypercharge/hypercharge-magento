@@ -29,6 +29,7 @@ class GlobalExperts_Hypercharge_Block_Form_Sepa extends Mage_Payment_Block_Form_
     /**
      * Prepare payment form
      */
+
     protected function _construct() {
         parent::_construct();
         $this->setTemplate('hypercharge/form/sepa.phtml');
@@ -37,5 +38,19 @@ class GlobalExperts_Hypercharge_Block_Form_Sepa extends Mage_Payment_Block_Form_
     public function getSubmitUrl() {
         return 'hypercharge-mobile-sepa';
     }
-    
+
+    protected function getMandateId()
+    {
+        $quote = Mage::getSingleton('checkout/type_onepage')
+            ->getQuote();
+
+        return $quote->getId();
+    }
+
+    protected function getMandateSignatureDate()
+    {
+        $quote = Mage::getSingleton('checkout/type_onepage')
+            ->getQuote();
+        return $quote->getCreatedAt();
+    }
 }

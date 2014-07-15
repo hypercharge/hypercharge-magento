@@ -47,7 +47,7 @@ class GlobalExperts_Hypercharge_Block_Info_Cc extends Mage_Payment_Block_Info {
             $transport->addData(array(
                 Mage::helper('bithypercharge')->__('Transaction Status') => $this->htmlEscape($payment->getAdditionalInformation('Transaction Status'))
             ));      
-        }        
+        }
         return $transport;
     }
     

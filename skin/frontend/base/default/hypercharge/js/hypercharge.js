@@ -18,7 +18,7 @@ Hyper = Class.create({
         // Saving container for later usage
         this.container = $(container);
         // Initialising every form field by using initField callback.
-        var arr = this.container.select('input');        
+        var arr = this.container.select('input');
         arr.each(this.initField.bind(this));
         var arr2 = this.container.select('select');
         arr2.each(this.initField.bind(this));
@@ -28,17 +28,27 @@ Hyper = Class.create({
     // This method initialises field in the loop above
     initField: function (field) {
         // Parses ccs class names to retrieve mapped field name
-        var fieldName = this.getMappedName(field);       
+        var fieldName = this.getMappedName(field);
+
         if (!fieldName) {
             // Ignore non mapped fields
             return;
         }
+
         field.observe('change', this.onChange);
         // If there is any value already set in the object, set it back to field.
         // It is useful in case if customer returns back to shipping method
         // and afterwards again enters his payment details.
         if (this.storedFields.get(fieldName)) {
             field.value = this.storedFields.get(fieldName);
+        }
+
+        //sepa mandate_id and mandate_signature_date are predefined and need to be set as stored
+        if (fieldName == 'sepa_mandate_id' || fieldName == 'sepa_mandate_signature_date') {
+            this.storedFields.set(
+                fieldName,
+                field.value
+            );
         }
     },
     // This method stores data on element value change
@@ -51,6 +61,7 @@ Hyper = Class.create({
     },
     // Return field name from class name
     getMappedName: function (element) {
+
         if (element.className.match(/field-(.+)/)) {
             var classNames = element.classNames();
             var fieldName =  classNames.detect(function(item) {
@@ -103,7 +114,7 @@ Hyper = Class.create({
     // submits form data to payment provider
     sendForm: function (formUrl) {
         var fields = this.storedFields.keys();
-        
+
         var json = '{ "payment": { ';
         for (var i= 0, l=fields.length; i < l; i ++) {
             json += "\"" + fields[i] + "\" : \"" + this.storedFields.get(fields[i]) + "\",";
@@ -124,7 +135,7 @@ Hyper = Class.create({
         var data = json.evalJSON(true); 
         var successUrl = this.successUrl;
         var errorUrl = this.errorUrl;
-        
+
         jQuery.support.cors = true;
         jQuery.ajax({
                 url: formUrl,

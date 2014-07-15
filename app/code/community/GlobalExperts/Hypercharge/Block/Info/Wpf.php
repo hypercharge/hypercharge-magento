@@ -37,7 +37,7 @@ class GlobalExperts_Hypercharge_Block_Info_Wpf extends Mage_Payment_Block_Info
         $info = parent::_prepareSpecificInformation($transport);
         $payment = $this->getInfo();
         $transport = new Varien_Object();
-        $paymentInfo = $payment->getAdditionalInformation();        
+        $paymentInfo = $payment->getAdditionalInformation();
         if ($this->htmlEscape($payment->getAdditionalInformation('Last Transaction ID'))) {
             $transport->addData(array(
                 Mage::helper('bithypercharge')->__('Last Transaction ID') => $this->htmlEscape($payment->getAdditionalInformation('Last Transaction ID'))
@@ -56,7 +56,7 @@ class GlobalExperts_Hypercharge_Block_Info_Wpf extends Mage_Payment_Block_Info
             $transport->addData(array(
                 Mage::helper('bithypercharge')->__('Transaction Status') => $this->htmlEscape($payment->getAdditionalInformation('Transaction Status'))
             ));      
-        }        
+        }
         return $transport;
     }
 }

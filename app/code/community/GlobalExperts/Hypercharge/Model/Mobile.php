@@ -214,7 +214,7 @@ class GlobalExperts_Hypercharge_Model_Mobile extends Mage_Payment_Model_Method_A
         $trx_type = $post['payment_transaction_transaction_type'];
         $pay_id = $post['payment_unique_id'];
         $notification_type = $post['notification_type'];
-        
+
         $xml = $this->getTrxEndXml($pay_id);
         
         try {

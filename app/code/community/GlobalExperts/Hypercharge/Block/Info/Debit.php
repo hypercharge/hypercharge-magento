@@ -43,11 +43,41 @@ class GlobalExperts_Hypercharge_Block_Info_Debit extends Mage_Payment_Block_Info
                 Mage::helper('bithypercharge')->__('Last Transaction ID') => $this->htmlEscape($payment->getAdditionalInformation('Last Transaction ID'))
             ));      
         }
+        if ($this->htmlEscape($payment->getAdditionalInformation('Wire Reference ID pending'))) {
+            $transport->addData(array(
+                Mage::helper('bithypercharge')->__('Wire Reference ID - please use this to make a deposit') => $this->htmlEscape($payment->getAdditionalInformation('Wire Reference ID pending'))
+            ));      
+        } elseif ($this->htmlEscape($payment->getAdditionalInformation('Wire Reference ID approved'))) {
+            $transport->addData(array(
+                Mage::helper('bithypercharge')->__('Wire Reference ID') => $this->htmlEscape($payment->getAdditionalInformation('Wire Reference ID approved'))
+            ));      
+        }
         if ($this->htmlEscape($payment->getAdditionalInformation('Transaction Status'))) {
             $transport->addData(array(
                 Mage::helper('bithypercharge')->__('Transaction Status') => $this->htmlEscape($payment->getAdditionalInformation('Transaction Status'))
             ));      
-        }        
+        }
+
+        if ($this->htmlEscape($payment->getAdditionalInformation('transaction_id')) && $payment->getMethodInstance()->getCode() == Mage::getModel("bithypercharge/sepa")->getCode()) {
+
+            $orderId = current(explode("---", $payment->getAdditionalInformation('transaction_id')));
+            $order = Mage::getModel("sales/order")->loadByIncrementId($orderId);
+
+            $quoteId = $order->getQuoteId();
+
+            $quote = Mage::getModel('sales/quote')->loadByIdWithoutStore($quoteId);
+            
+            $mandateId = $quote->getId();
+            $mandateSignatureDate = $quote->getCreatedAt();
+
+            $transport->addData(array(
+                Mage::helper('bithypercharge')->__('Sepa Mandate Id') => $this->htmlEscape($mandateId)
+            ));
+
+            $transport->addData(array(
+                Mage::helper('bithypercharge')->__('Sepa Mandate Signature Date') => $this->htmlEscape($mandateSignatureDate)
+            ));
+        }
         return $transport;
     }
     
