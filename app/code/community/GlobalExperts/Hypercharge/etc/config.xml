@@ -28,7 +28,7 @@
 <config>
     <modules>
         <GlobalExperts_Hypercharge>            
-            <version>1.0.1</version>
+            <version>1.0.2</version>
         </GlobalExperts_Hypercharge>
     </modules>
  
@@ -120,12 +120,12 @@
                 <active>0</active>                
                 <model>bithypercharge/mobile</model>                
                 <order_status>processing</order_status>                
-            </hypercharge_mobile>            
+            </hypercharge_mobile>
             <hypercharge_mobile_cc>
-                <active>0</active>                
-                <model>bithypercharge/cc</model>                
-                <order_status>processing</order_status>                
-                <title>Credit Card (Hypercharge)</title> 
+                <active>0</active>
+                <model>bithypercharge/cc</model>
+                <order_status>processing</order_status>
+                <title>Credit Card (Hypercharge)</title>
                 <cctypes>VI,MC,AE,DI,JCB,OT</cctypes>
                 <payment_action>authorize_capture</payment_action>
                 <allowspecific>0</allowspecific>
@@ -140,6 +140,15 @@
                 <allowspecific>0</allowspecific>
                 <test>1</test>
             </hypercharge_mobile_debit>
+            <hypercharge_mobile_sepa>
+                <active>0</active>
+                <model>bithypercharge/sepa</model>
+                <order_status>processing</order_status>
+                <title>SEPA (Hypercharge)</title>
+                <payment_action>authorize_capture</payment_action>
+                <allowspecific>0</allowspecific>
+                <test>1</test>
+            </hypercharge_mobile_sepa>
             <hypercharge_wpf_ideal>
                 <active>0</active>                
                 <model>bithypercharge/ideal</model>                
@@ -181,16 +190,6 @@
                 <use_iframe>1</use_iframe> 
                 <check_address>0</check_address>        
             </hypercharge_wpf_purchase_on_account>
-            <hypercharge_mobile_sepa>
-                <active>0</active>                
-                <model>bithypercharge/sepa</model>                
-                <order_status>processing</order_status>
-                <title>SEPA (Hypercharge)</title>                
-                <allowspecific>0</allowspecific>
-                <mode>1</mode>
-                <use_iframe>1</use_iframe> 
-                <check_address>0</check_address>        
-            </hypercharge_mobile_sepa>
             <hypercharge_wpf_sofort>
                 <active>0</active>                
                 <model>bithypercharge/sofort</model>                
