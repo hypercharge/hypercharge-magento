@@ -460,6 +460,15 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </terms>
+                        <errormsg>
+                            <label>Acceptance Checkbox Text</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>120</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Use {{shop_email_address}} to have the store email address dynamically(System->Configuration->Store Email Addresses->Sales Representative.)</comment>
+                        </errormsg>
                     </fields>
                 </hypercharge_mobile_purchase_on_account>
                 <hypercharge_wpf_purchase_on_account translate="label" module="bithypercharge">

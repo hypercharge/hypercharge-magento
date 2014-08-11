@@ -245,7 +245,8 @@ class GlobalExperts_Hypercharge_Model_Mobile extends Mage_Payment_Model_Method_A
             $order->save();
             // send mail for POA with Payolution
             if ($paymentMethod == 'GlobalExperts_Hypercharge_Model_Mobilepurchaseaccount') {
-	        $comment = Mage::getStoreConfig('payment/hypercharge_mobile_purchase_on_account/errormsg');
+	            $comment = Mage::getStoreConfig('payment/hypercharge_mobile_purchase_on_account/errormsg');
+                $comment = str_replace("{{shop_email_address}}", Mage::getStoreConfig('general/ident_sales/email', $order->getStoreId()), $comment);
                 $order->addStatusToHistory($order->getStatus(), $comment, false);
                 $order->sendOrderUpdateEmail(true, $comment); 
                 $order->save();
