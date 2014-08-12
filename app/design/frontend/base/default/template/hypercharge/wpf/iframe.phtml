@@ -23,7 +23,7 @@
  * @copyright   Copyright (c) 2014 Global Experts GmbH (http://www.globalexperts.ch/)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
-$payUrl = Mage::getSingleton('core/session')->getHyperRedirectUrl();
+$payUrl = Mage::getSingleton('core/session')->getHyperRedirectUrl() . "?locale=de";
 ?>
 <iframe src="<?php echo $payUrl; ?>" width="100%" height="990px" style="border:0">
   <p>Your browser does not support iframes.</p>

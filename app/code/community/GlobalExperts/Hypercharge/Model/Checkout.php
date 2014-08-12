@@ -423,22 +423,22 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
             'return_failure_url' => Mage::getUrl('bit-hypercharge/wpfredirect/failure', array('_secure' => true)),
             'return_cancel_url' => Mage::getUrl('bit-hypercharge/wpfredirect/cancel', array('_secure' => true)),
             'billing_address' => array(
-                'first_name' => $billing->getFirstname(),
-                'last_name' => $billing->getLastname(),
-                'address1' => trim(str_replace("\n", ' ', trim(implode(' ', $billing->getStreet())))),
-                'city' => $billing->getCity(),
-                'country' => $billing->getCountryId(),
-                'zip_code' => $billing->getData('postcode'),
-                'state' => $billing->getData('region')
+                'first_name' => utf8_decode($billing->getFirstname()),
+                'last_name' => utf8_decode($billing->getLastname()),
+                'address1' => utf8_decode(trim(str_replace("\n", ' ', trim(implode(' ', $billing->getStreet()))))),
+                'city' => utf8_decode($billing->getCity()),
+                'country' => utf8_decode($billing->getCountryId()),
+                'zip_code' => utf8_decode($billing->getData('postcode')),
+                'state' => utf8_decode($billing->getData('region'))
             ),
             'shipping_address' => array(
-                'first_name' => $billing->getFirstname(),
-                'last_name' => $billing->getLastname(),
-                'address1' => trim(str_replace("\n", ' ', trim(implode(' ', $billing->getStreet())))),
-                'city' => $billing->getCity(),
-                'country' => $billing->getCountryId(),
-                'zip_code' => $billing->getData('postcode'),
-                'state' => $billing->getData('region')
+                'first_name' => utf8_decode($billing->getFirstname()),
+                'last_name' => utf8_decode($billing->getLastname()),
+                'address1' => utf8_decode(trim(str_replace("\n", ' ', trim(implode(' ', $billing->getStreet()))))),
+                'city' => utf8_decode($billing->getCity()),
+                'country' => utf8_decode($billing->getCountryId()),
+                'zip_code' => utf8_decode($billing->getData('postcode')),
+                'state' => utf8_decode($billing->getData('region'))
             ),
         );
 
