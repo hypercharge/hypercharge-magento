@@ -69,6 +69,13 @@ class GlobalExperts_Hypercharge_WpfredirectController extends Mage_Core_Controll
     public function failureAction() {
         Mage::getSingleton('core/session')->unsHyperRedirectUrl();
         Mage::getSingleton('core/session')->unsHyperReviewRedirect();
+		$session = Mage::getSingleton('checkout/session');
+		if ($session->getLastRealOrderId()) {
+            $order = Mage::getModel('sales/order')->loadByIncrementId($session->getLastRealOrderId());
+            if ($order->getId()) {
+                $order->setState(Mage_Sales_Model_Order::STATE_NEW, true)->save();
+            }
+        }
         echo '<script type="text/javascript">window.top.location.href = "' . Mage::getUrl('checkout/onepage/failure') . '"; </script>';
         //$this->_redirect('checkout/onepage/failure');
     }
@@ -76,6 +83,13 @@ class GlobalExperts_Hypercharge_WpfredirectController extends Mage_Core_Controll
     public function cancelAction() {
         Mage::getSingleton('core/session')->unsHyperRedirectUrl();
         Mage::getSingleton('core/session')->unsHyperReviewRedirect();
+		$session = Mage::getSingleton('checkout/session');
+		if ($session->getLastRealOrderId()) {
+            $order = Mage::getModel('sales/order')->loadByIncrementId($session->getLastRealOrderId());
+            if ($order->getId()) {
+                $order->setState(Mage_Sales_Model_Order::STATE_NEW, true)->save();
+            }
+        }
         echo '<script type="text/javascript">window.top.location.href = "' . Mage::getUrl('checkout/onepage/failure') . '"; </script>';
         //$this->_redirect('checkout/onepage/failure');
     }
