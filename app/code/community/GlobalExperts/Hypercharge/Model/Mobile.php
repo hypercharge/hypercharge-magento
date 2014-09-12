@@ -193,6 +193,7 @@ class GlobalExperts_Hypercharge_Model_Mobile extends Mage_Payment_Model_Method_A
         $timestamp = date('Y-m-d H:i:s', time() + 10800);
         Mage::helper('bithypercharge')->logger("\n" . str_repeat('*', 80) . "\n" . $timestamp . ' POST notification received');
         Mage::helper('bithypercharge')->logger("\n" . ' Post data: ' . print_r($post, true));
+
         // Check for existence of data
         if(!$hypercharge_channels || !$post || !is_array($post))
             return;
@@ -216,6 +217,7 @@ class GlobalExperts_Hypercharge_Model_Mobile extends Mage_Payment_Model_Method_A
         $pay_id = $post['payment_unique_id'];
         $notification_type = $post['notification_type'];
 
+        Mage::log(var_export($post, true), null, 'bbcc.log');
         $xml = $this->getTrxEndXml($pay_id);
         
         try {
@@ -244,14 +246,14 @@ class GlobalExperts_Hypercharge_Model_Mobile extends Mage_Payment_Model_Method_A
                 ->setIsTransactionClosed(0);
             $order->registerCancellation('Payment error.', false);
             $order->save();
-            // send mail for POA with Payolution
-            if ($paymentMethod == 'GlobalExperts_Hypercharge_Model_Mobilepurchaseaccount') {
-	            $comment = Mage::getStoreConfig('payment/hypercharge_mobile_purchase_on_account/errormsg');
-                $comment = str_replace("{{shop_email_address}}", Mage::getStoreConfig('general/ident_sales/email', $order->getStoreId()), $comment);
-                $order->addStatusToHistory($order->getStatus(), $comment, false);
-                $order->sendOrderUpdateEmail(true, $comment); 
-                $order->save();
-            }            
+//            // send mail for POA with Payolution
+//            if ($paymentMethod == 'GlobalExperts_Hypercharge_Model_Mobilepurchaseaccount') {
+//	            $comment = Mage::getStoreConfig('payment/hypercharge_mobile_purchase_on_account/errormsg');
+//                $comment = str_replace("{{shop_email_address}}", Mage::getStoreConfig('general/ident_sales/email', $order->getStoreId()), $comment);
+//                $order->addStatusToHistory($order->getStatus(), $comment, false);
+//                $order->sendOrderUpdateEmail(true, $comment);
+//                $order->save();
+//            }
             return $xml;
         }
         
@@ -355,7 +357,8 @@ class GlobalExperts_Hypercharge_Model_Mobile extends Mage_Payment_Model_Method_A
             $transactionAmount = $transaction->amount;
         else 
             $transactionAmount = $response->amount;
-        
+
+
         // Set some extra info
         $order->getPayment()
             ->setAdditionalInformation('Last Transaction ID', $transactionId)
