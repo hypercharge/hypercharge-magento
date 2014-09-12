@@ -1,0 +1,39 @@
+{
+	"name":"hypercharge/hypercharge-php",
+	"description":"Hypercharge PHP Library / SDK",
+	"keywords": ["hypercharge", "payment", "api", "sdk"],
+	"hompage":"https://secure.sankyu.com/integration",
+	"license":"MIT",
+	"authors": [
+		{
+			"name": "Jan Mentzel",
+			"email": "jan@islandofwaiting.de",
+			"role": "Developer"
+		}
+	],
+	"require": {
+		"php": ">=5.3",
+		"ext-curl": "*",
+		"ext-hash": "*",
+		"ext-simplexml": "*",
+		"ext-dom": "*",
+		"hypercharge/hypercharge-schema": "*"
+	},
+	"require-dev": {
+		"simpletest/simpletest": "*",
+		"mockery/mockery": "dev-master@dev"
+	},
+	"autoload": {
+		"classmap": ["lib/Hypercharge/"]
+		,"files": ["lib/Hypercharge/errors.php"]
+	}
+
+
+	,"___minimum-stability":"dev"
+	,"___repositories": [
+		{
+			"type": "vcs",
+			"url" : "/Users/janmentzel/work/hypercharge/hypercharge-schema"
+		}
+	]
+}

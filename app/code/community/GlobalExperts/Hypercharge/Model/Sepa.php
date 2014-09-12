@@ -23,10 +23,6 @@
  * @copyright   Copyright (c) 2014 Global Experts GmbH (http://www.globalexperts.ch/)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
- 
-require_once 'Hypercharge/interfaces.php';
-require_once 'Hypercharge/errors.php';
-require_once 'Hypercharge/logger.php';
 
 class GlobalExperts_Hypercharge_Model_Sepa extends GlobalExperts_Hypercharge_Model_Mobile {
 
@@ -110,6 +106,7 @@ class GlobalExperts_Hypercharge_Model_Sepa extends GlobalExperts_Hypercharge_Mod
             } else {
                 $mode = Hypercharge\Config::ENV_LIVE;
             }
+
             // start logging transaction
             Mage::helper('bithypercharge')->logger("\n" . str_repeat("*", 80) . "\n Void transaction started");
             // get current order

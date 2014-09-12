@@ -71,7 +71,12 @@ class Varien_Autoload
     static public function register()
     {
         spl_autoload_register(array(self::instance(), 'autoload'));
+        $file = './vendor/autoload.php';
+        if (file_exists($file)) {
+            require_once './vendor/autoload.php';
+        }
     }
+
 
     /**
      * Load class source code

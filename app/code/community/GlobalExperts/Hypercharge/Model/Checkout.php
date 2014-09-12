@@ -371,15 +371,18 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
     public function getRedirectUrl() {
         $order = $this->getQuote();
         $paymentMethod = get_class($order->getPayment()->getMethodInstance());
-        if ($paymentMethod)
-            $modelPayment = Mage::getModel($paymentMethod);
-        else
-            $modelPayment = $this;
 
-        $gate = Mage::helper('bithypercharge/gateway');
+        $modelPayment = ($paymentMethod) ? Mage::getModel($paymentMethod) : $this;
         $hypercharge_channels = $this->getConfigChannels();
+
+        // set API call mode
         $mode = !$modelPayment->getConfigData('mode');
-        $transactionTypes = explode(',', $modelPayment->getConfigData('transaction_types'));
+        if ($mode) {
+            $mode = Hypercharge\Config::ENV_LIVE;
+        } else {
+            $mode = Hypercharge\Config::ENV_SANDBOX;
+        }
+
         $ttl = $modelPayment->getConfigData('ttl');
 
         if (!$hypercharge_channels) {
@@ -391,29 +394,39 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
             Mage::throwException('Could not retrieve order information');
             return;
         }
+
+        $currency = $order->getBaseCurrencyCode();
+        if (!array_key_exists($currency, $hypercharge_channels)) {
+            Mage::throwException(
+                'The merchant doesn\'t accept payments for this currency');
+            return;
+        }
+
+
+        Hypercharge\Config::set(
+            $hypercharge_channels[$currency]['login']
+            ,$hypercharge_channels[$currency]['pass']
+            ,$mode
+        );
+
+
         $currency = $order->getBaseCurrencyCode();
         if (!array_key_exists($currency, $hypercharge_channels)) {
             Mage::throwException(
                     'The merchant doesn\'t accept payments for this currency');
             return;
         }
-        $gate->setChannel($hypercharge_channels[$currency]['channel']);
-        $gate->setUsername($hypercharge_channels[$currency]['login']);
-        $gate->setPassword($hypercharge_channels[$currency]['pass']);
-
-        $gate->setMode('live');
-        if (!$mode)
-            $gate->setMode('test');
 
         // is editable by user
-        $editableByUser = (int) $modelPayment->getConfigData('check_address');
-
+        $editableByUser = (bool) $modelPayment->getConfigData('check_address');
+        $amount = sprintf("%.02f", $order->getBaseGrandTotal()) * 100;
         $billing = $order->getBillingAddress();
+
         $paymentData = array(
             'transaction_id' => $order->getRealOrderId(),
             'usage' => 'Hypercharge Web Payment Form transaction',
             'description' => 'Order number ' . $order->getRealOrderId(),
-            'amount' => sprintf("%.02f", $order->getBaseGrandTotal()) * 100,
+            'amount' => (int) $amount,
             'currency' => $currency,
             'editable_by_user' => $editableByUser,
             'customer_email' => $order->getCustomerEmail(),
@@ -429,7 +442,6 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
                 'city' => utf8_decode($billing->getCity()),
                 'country' => utf8_decode($billing->getCountryId()),
                 'zip_code' => utf8_decode($billing->getData('postcode')),
-                'state' => utf8_decode($billing->getData('region'))
             ),
             'shipping_address' => array(
                 'first_name' => utf8_decode($billing->getFirstname()),
@@ -438,7 +450,6 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
                 'city' => utf8_decode($billing->getCity()),
                 'country' => utf8_decode($billing->getCountryId()),
                 'zip_code' => utf8_decode($billing->getData('postcode')),
-                'state' => utf8_decode($billing->getData('region'))
             ),
         );
 
@@ -455,48 +466,78 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
             $paymentData['ttl'] = $ttl;
 
         // Log some information        
-        Mage::helper('bithypercharge')->logger("WPF initiated. Gateway config:\n"
-                . print_r($gate->getGateway(), true)
-                . "Mode:" . print_r($gate->getMode(), true)
-                . "\nRequest string:\n" . '<?xml version="1.0" encoding="utf-8"?>'
-                . $gate->paramsXML($paymentData, 'wpf_payment'));
+        Mage::helper('bithypercharge')->logger("WPF initiated:\n"
+                . "Mode:" . print_r($mode, true)
+                . "\nRequest string:\n"
+                . var_export($paymentData, true));
 
-        if (!$response = $gate->wpf_create($paymentData)) {
-            $order->addStatusToHistory($order->getStatus(), $gate->__('Could not initiate WPF'));
-            $order->save();
-            Mage::getSingleton('core/session')
-                    ->addError($gate->__('Could not initiate WPF'));
-            return;
-        }
 
-        // Log the response        
-        Mage::helper('bithypercharge')->logger("WPF response received:\n" . print_r($response, true));
 
         // Instantiate payment method to log the response error
         $paymentInst = $order->getPayment()->getMethodInstance();
-        if ($response['status'] == 'error') {
-            $order->addStatusToHistory($order->getStatus(), $response['message']);
+
+        try {
+            $payment = Hypercharge\Payment::wpf($paymentData);
+
+            if ($payment->status == 'error') {
+                $order->addStatusToHistory($order->getStatus(), $payment->message);
+                $order->save();
+                Mage::getSingleton('core/session')->addError($mode ? $payment->message : $payment->technical_message);
+                $paymentInst->setTransactionId($paymentData['transaction_id']);
+                return;
+            }
+
+            // And some information aggregation before we leave
+
+            if( $payment->shouldRedirect()) {
+                // ok, WPF session created.
+                Mage::helper('bithypercharge')->logger('Customer redirected to Hypercharge');
+                $order->addStatusToHistory($order->getStatus(), Mage::helper('bithypercharge')->__('Customer was redirected to Hypercharge.'));
+                $order->save();
+                $paymentInst->setLastTransactionId($paymentData['transaction_id']);
+                Mage::getSingleton('core/session')->setHyperRedirectUrl($payment->redirect_url);
+                if ($modelPayment->getConfigData('use_iframe') == 1) {
+                    return Mage::getUrl('bit-hypercharge/wpfredirect/hypercharge');
+                } elseif ($modelPayment->getConfigData('use_iframe') == 2) {
+                    Mage::getSingleton('core/session')->setHyperReviewRedirect(1);
+                    return false;
+                } else {
+                    return $payment->redirect_url;
+                }
+            } elseif($payment->isPersistentInHypercharge()) {
+                Mage::helper('bithypercharge')->logger($payment->message . " " . $payment->technical_message);
+                // payment has been created in hypercharge but something went wrong.
+                if ($payment->status == 'error') {
+                    $order->addStatusToHistory($order->getStatus(), $payment->message);
+                    $order->save();
+                    Mage::getSingleton('core/session')->addError($mode ? $payment->message : $payment->technical_message);
+                    $paymentInst->setTransactionId($paymentData['transaction_id']);
+                    return;
+                }
+
+            } else {
+                $order->addStatusToHistory($order->getStatus(), $this->__('Could not initiate WPF'));
+                $order->save();
+                Mage::getSingleton('core/session')->addError($this->__('Could not initiate WPF'));
+                return;
+            }
+        } catch(Hypercharge\Errors\ValidationError $e) {
+            // no payment created in hypercharge because of local pre-validation errors
+            // show validation errors to customer
+            // $e->errors is an Array of Hash, format: [ { "property": String , "message" : String }, ... ]
+            $order->addStatusToHistory($order->getStatus(), "Oops! An error occured! " . implode("<br/>", $e->errors));
             $order->save();
-            Mage::getSingleton('core/session')->addError(
-                    $mode ? $response['message'] : $response['technical_message']);
+            Mage::getSingleton('core/session')->addError($mode ? $payment->message : $payment->technical_message);
             $paymentInst->setTransactionId($paymentData['transaction_id']);
             return;
-        }
 
-        // And some information aggregation before we leave        
-        Mage::helper('bithypercharge')->logger('Customer redirected to Hypercharge');
-        $order->addStatusToHistory($order->getStatus(), $gate->__('Customer was redirected to Hypercharge.'));
-        $order->save();
-        $paymentInst->setLastTransactionId($response['transaction_id']);
-
-        Mage::getSingleton('core/session')->setHyperRedirectUrl($response['redirect_url']);
-        if ($modelPayment->getConfigData('use_iframe') == 1) {
-            return Mage::getUrl('bit-hypercharge/wpfredirect/hypercharge');
-        } elseif ($modelPayment->getConfigData('use_iframe') == 2) {
-            Mage::getSingleton('core/session')->setHyperReviewRedirect(1);
-            return false;
-        } else {
-            return $response['redirect_url'];
+        } catch(Exception $e) {
+            Mage::helper('bithypercharge')->logger('WPF ERROR: ' . var_export($e->getTraceAsString(), true));
+            $order->addStatusToHistory($order->getStatus(), "Oops! An error occured! ");
+            $order->save();
+            Mage::getSingleton('core/session')->addError("Sorry for the inconvenience! An error occured!");
+            $paymentInst->setTransactionId($paymentData['transaction_id']);
+            return;
         }
     }
 
@@ -539,17 +580,18 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
         // Check for existence of data
         if (!$hypercharge_channels || !$post || !is_array($post))
             return;
-        if (!($post['wpf_status'] && ($post['wpf_status'] == 'error' || $post['wpf_status'] == 'timeout')))
-            if (!array_key_exists('signature', $post) || !array_key_exists('payment_transaction_channel_token', $post) || !array_key_exists('payment_transaction_unique_id', $post) || !array_key_exists('wpf_transaction_id', $post) || !array_key_exists('payment_transaction_transaction_type', $post) || !array_key_exists('wpf_unique_id', $post) || !array_key_exists('notification_type', $post))
+        Mage::log(var_export($post, true), null, "aabb.log");
+        if (!($post['payment_status'] && ($post['payment_status'] == 'error' || $post['payment_status'] == 'timeout')))
+            if (!array_key_exists('signature', $post) || !array_key_exists('payment_transaction_channel_token', $post) || !array_key_exists('payment_transaction_unique_id', $post) || !array_key_exists('payment_transaction_id', $post) || !array_key_exists('payment_transaction_transaction_type', $post) || !array_key_exists('payment_unique_id', $post) || !array_key_exists('notification_type', $post))
                 return;
 
         //Get the information from the POST variables
         $signature = $post['signature'];
         $trx_channel = $post['payment_transaction_channel_token'];
         $trx_id = $post['payment_transaction_unique_id'];
-        $wpf_trx_id = $post['wpf_transaction_id'];
+        $wpf_trx_id = $post['payment_transaction_id'];
         $trx_type = $post['payment_transaction_transaction_type'];
-        $wpf_id = $post['wpf_unique_id'];
+        $wpf_id = $post['payment_unique_id'];
         $notification_type = $post['notification_type'];
         $wireId = null;
         if ($post['wire_reference_id']) {
@@ -557,11 +599,9 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
         }
 
         $xml = $gate->getTrxEndXml($wpf_id);
-
+        $order_id = substr($wpf_trx_id, 0, strpos($wpf_trx_id, '-'));
         try {
-            $order = Mage::getModel('sales/order')
-                    ->loadByIncrementId($wpf_trx_id);
-            //$order_id = $order->getRealOrderId();
+            $order = Mage::getModel('sales/order')->loadByIncrementId($order_id);
         } catch (Exception $e) {
             Mage::helper('bithypercharge')->logger("\n" . $timestamp
                     . ' Transaction could not be found in database - '
@@ -577,9 +617,9 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
         $mode = !$modelPayment->getConfigData('mode');
 
         //Check if error or timeout
-        if ($post['wpf_status'] && ($post['wpf_status'] == 'error' || $post['wpf_status'] == 'timeout')) {
+        if ($post['payment_status'] && ($post['payment_status'] == 'error' || $post['payment_status'] == 'timeout')) {
             // cancel order
-            if ($post['wpf_status'] == 'timeout') {
+            if ($post['payment_status'] == 'timeout') {
                 $order->getPayment()
                         ->setAdditionalInformation(
                                 'Transaction Status', 'timeout')

@@ -63,7 +63,6 @@ class GlobalExperts_Hypercharge_WpfredirectController extends Mage_Core_Controll
         Mage::getSingleton('checkout/session')->getQuote()
                 ->setIsActive(false)->save();
         echo '<script type="text/javascript">window.top.location.href = "' . Mage::getUrl('checkout/onepage/success') . '"; </script>';
-        //$this->_redirect('checkout/onepage/success');
     }
 
     public function failureAction() {
@@ -77,7 +76,6 @@ class GlobalExperts_Hypercharge_WpfredirectController extends Mage_Core_Controll
             }
         }
         echo '<script type="text/javascript">window.top.location.href = "' . Mage::getUrl('checkout/onepage/failure') . '"; </script>';
-        //$this->_redirect('checkout/onepage/failure');
     }
 
     public function cancelAction() {
@@ -91,7 +89,6 @@ class GlobalExperts_Hypercharge_WpfredirectController extends Mage_Core_Controll
             }
         }
         echo '<script type="text/javascript">window.top.location.href = "' . Mage::getUrl('checkout/onepage/failure') . '"; </script>';
-        //$this->_redirect('checkout/onepage/failure');
     }
 
     /**

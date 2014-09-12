@@ -24,10 +24,6 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 
-require_once 'Hypercharge/interfaces.php';
-require_once 'Hypercharge/errors.php';
-require_once 'Hypercharge/logger.php';
- 
 class GlobalExperts_Hypercharge_Model_Mobile extends Mage_Payment_Model_Method_Abstract {
     
     const REQUEST_TYPE_AUTH_CAPTURE         = 'AUTH_CAPTURE';
@@ -120,26 +116,31 @@ class GlobalExperts_Hypercharge_Model_Mobile extends Mage_Payment_Model_Method_A
                 ,$mode
             );
         $channelToken = $hypercharge_channels[$currency]['channel'];
-        
+        $amount = sprintf("%.02f", $order->getBaseGrandTotal()) * 100;
         // prepare initialize data
-        $initialize = Hypercharge\Payment::mobile(array(
+        $paymentData = array(
             'currency' => $currency
-            , 'amount' => sprintf("%.02f", $order->getBaseGrandTotal()) * 100 // in cents
-            , 'transaction_id' => $order->getRealOrderId() //uniqid(time())
-            , 'usage' => Mage::app()->getStore()->getName() . ' order authorization'
-            , 'customer_email' => $order->getCustomerEmail()
-            , 'customer_phone' => $billing->getTelephone()
-            , 'notification_url' => Mage::getUrl('bit-hypercharge/notification/response', array('_secure' => true)) 
-            , 'billing_address' => array (
+        , 'amount' => (int)$amount // in cents
+        , 'transaction_id' => $order->getRealOrderId() //uniqid(time())
+        , 'usage' => Mage::app()->getStore()->getName() . ' order authorization'
+        , 'customer_email' => $order->getCustomerEmail()
+        , 'customer_phone' => $billing->getTelephone()
+        , 'notification_url' => Mage::getUrl('bit-hypercharge/notification/response', array('_secure' => true))
+        , 'billing_address' => array(
                 'first_name' => $billing->getFirstname()
-                , 'last_name' => $billing->getLastname()
-                , 'address1' => $billing->getStreet(1)
-                , 'zip_code' => $billing->getPostcode()
-                , 'city' => $billing->getCity()
-                , 'state' => $billing->getRegionCode()
-                , 'country' => $billing->getCountry()
-            )            
-        ));              
+            , 'last_name' => $billing->getLastname()
+            , 'address1' => $billing->getStreet(1)
+            , 'zip_code' => $billing->getPostcode()
+            , 'city' => $billing->getCity()
+            , 'country' => $billing->getCountry()
+            )
+        );
+
+        if (in_array($paymentData['billing_address']['country'], array('US', 'CA'))) {
+            $paymentData['billing_address']['state'] = $billing->getRegionCode();
+        };
+
+        $initialize = Hypercharge\Payment::mobile($paymentData);
         // check if authorization is approved
         if ($initialize->unique_id && $initialize->status == 'new' && !$initialize->error) {
             Mage::helper('bithypercharge')->logger("Initialize transaction approved");             

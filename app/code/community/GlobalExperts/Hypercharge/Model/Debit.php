@@ -23,10 +23,6 @@
  * @copyright   Copyright (c) 2014 Global Experts GmbH (http://www.globalexperts.ch/)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
- 
-require_once 'Hypercharge/interfaces.php';
-require_once 'Hypercharge/errors.php';
-require_once 'Hypercharge/logger.php';
 
 class GlobalExperts_Hypercharge_Model_Debit extends GlobalExperts_Hypercharge_Model_Mobile {
 

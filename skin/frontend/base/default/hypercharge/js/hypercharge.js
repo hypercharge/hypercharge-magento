@@ -86,6 +86,9 @@ Hyper = Class.create({
     setPaymentMethod: function(method) {
         this.paymentMethod = method;
     },
+    setHeaderOrigin: function(origin) {
+        this.headerOrigin = origin;
+    },
     setSuccessUrl: function(url) {
         this.successUrl = url;
     },
@@ -130,25 +133,37 @@ Hyper = Class.create({
             // get dob
             var dob = document.getElementById('poa-dob').value;            
             json += "\"risk_params\":{\"birthday\":\"" + dob + "\"},";
-        }                
-        json += "\"payment_method\" : \"" + this.paymentMethod + "\" } }";
+        }
+        json += "\"header_origin\" : \"" + this.headerOrigin + "\"," ;
+        json += "\"payment_method\" : \"" + this.paymentMethod + "\" } } ";
+
         var data = json.evalJSON(true); 
         var successUrl = this.successUrl;
         var errorUrl = this.errorUrl;
 
+
         jQuery.support.cors = true;
+
+        var container = jQuery('#review-buttons-container');
         jQuery.ajax({
-                url: formUrl,
-                type: 'POST',
-                crossDomain: true,
-                data: data,
-                jsonp: 'jsonp_callback',
-                dataType: 'jsonp',
-                success: function(result) {
+            url: formUrl,
+            type: 'POST',
+            crossDomain: true,
+            data: data,
+            dataType: "xml",
+            headers: { 'origin': this.headerOrigin },
+            success: function(result) {
+                var xml = jQuery(result);
+                var transactionStatus = xml.find("status").text();
+                if (transactionStatus == 'approved' || transactionStatus == 'pending_async') {
                     window.location.href = successUrl;
                     return;
-                },
-                error: function(jqXHR, tranStatus, errorThrown) {
+                } else {
+                    window.location.href = errorUrl;
+                    return;
+                }
+            },
+            error: function(jqXHR, tranStatus, errorThrown) {
                     if (jqXHR.status == 200) {
                         window.location.href = successUrl;
                         return;
@@ -156,8 +171,8 @@ Hyper = Class.create({
                         window.location.href = errorUrl;
                         return;
                     }
-                }
-            }); 
+            }
+        });
     },            
     // Creates form and appending it body element
     createForm: function (formUrl) {        
