@@ -4,7 +4,7 @@ namespace Hypercharge;
 // workaround to load SCHEMA_VERSION
 JsonSchemaValidator::schemaPathFor('foo');
 // workaround to load VERSION
-//Config::ENV_LIVE;
+Config::ENV_LIVE;
 
 class Curl implements IHttpsClient {
 	private $user;
@@ -40,7 +40,7 @@ class Curl implements IHttpsClient {
 		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 		curl_setopt($ch, CURLOPT_USERPWD, $this->user.':'.$this->passw);
 		curl_setopt($ch, CURLOPT_TIMEOUT, $this->timeout);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
 	}
 
@@ -151,7 +151,7 @@ class Curl implements IHttpsClient {
 			$header[] = 'Content-Length: '.mb_strlen($json);
 			$this->debug('data: '. $json);
 		}
-		//$header[] = 'Origin: ' . $json->header_origin;
+
 		$this->setHeader('application/json', $header);
 
 		curl_setopt($this->ch, CURLOPT_URL, $url);

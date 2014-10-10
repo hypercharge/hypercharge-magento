@@ -47,7 +47,8 @@ class GlobalExperts_Hypercharge_Model_Cc extends GlobalExperts_Hypercharge_Model
     protected $_canUseForMultishipping = false;
     // Can save credit card information for future processing?
     protected $_canSaveCc = false;
-    
+
+    protected $_jsonTransactionType = "";
     /**
      * Payment redirect
      * 

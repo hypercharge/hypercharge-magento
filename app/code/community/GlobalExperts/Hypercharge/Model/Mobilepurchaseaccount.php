@@ -47,7 +47,8 @@ class GlobalExperts_Hypercharge_Model_Mobilepurchaseaccount extends GlobalExpert
     protected $_canUseForMultishipping = false;
     // Can save credit card information for future processing?
     protected $_canSaveCc = false;
-    
+
+    protected $_jsonTransactionType = "";
     /**
      * Validate payment method information object
      *

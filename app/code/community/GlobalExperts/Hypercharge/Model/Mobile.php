@@ -48,6 +48,8 @@ class GlobalExperts_Hypercharge_Model_Mobile extends Mage_Payment_Model_Method_A
     protected $_canCapturePartial = false;    
     // Is initialize needed?
     protected $_isInitializeNeeded = true;
+
+    protected $_jsonTransactionType = "";
     
     /**
      * Method that will be executed instead of authorize or capture
@@ -73,6 +75,7 @@ class GlobalExperts_Hypercharge_Model_Mobile extends Mage_Payment_Model_Method_A
             Mage::throwException(Mage::helper('bithypercharge')->__('Invalid amount for authorization.'));
         }        
         $payment = $order->getPayment();
+        Mage::log(var_export($modelPayment->_jsonTransactionType, true), null, "payment.log");
         // set transaction amount
         $payment->setAmount($amount);        
         // prepare hypercharge gateway channels for calling
@@ -118,23 +121,29 @@ class GlobalExperts_Hypercharge_Model_Mobile extends Mage_Payment_Model_Method_A
         $channelToken = $hypercharge_channels[$currency]['channel'];
         $amount = sprintf("%.02f", $order->getBaseGrandTotal()) * 100;
         // prepare initialize data
+
         $paymentData = array(
             'currency' => $currency
-        , 'amount' => (int)$amount // in cents
-        , 'transaction_id' => $order->getRealOrderId() //uniqid(time())
-        , 'usage' => Mage::app()->getStore()->getName() . ' order authorization'
-        , 'customer_email' => $order->getCustomerEmail()
-        , 'customer_phone' => $billing->getTelephone()
-        , 'notification_url' => Mage::getUrl('bit-hypercharge/notification/response', array('_secure' => true))
-        , 'billing_address' => array(
-                'first_name' => $billing->getFirstname()
-            , 'last_name' => $billing->getLastname()
-            , 'address1' => $billing->getStreet(1)
-            , 'zip_code' => $billing->getPostcode()
-            , 'city' => $billing->getCity()
-            , 'country' => $billing->getCountry()
-            )
+            , 'amount' => (int)$amount // in cents
+            , 'transaction_id' => $order->getRealOrderId() //uniqid(time())
+            , 'usage' => Mage::app()->getStore()->getName() . ' order authorization'
+            , 'customer_email' => $order->getCustomerEmail()
+            , 'customer_phone' => $billing->getTelephone()
+            , 'notification_url' => Mage::getUrl('bit-hypercharge/notification/response', array('_secure' => true))
+            , 'billing_address' => array(
+                    'first_name' => $billing->getFirstname()
+                , 'last_name' => $billing->getLastname()
+                , 'address1' => $billing->getStreet(1)
+                , 'zip_code' => $billing->getPostcode()
+                , 'city' => $billing->getCity()
+                , 'country' => $billing->getCountry()
+                )
         );
+
+        $transactionType = $modelPayment->_jsonTransactionType;
+        if (isset($transactionType) && $transactionType != '') {
+            $paymentData['transaction_types'] = array('transaction_type' => $transactionType);
+        }
 
         if (in_array($paymentData['billing_address']['country'], array('US', 'CA'))) {
             $paymentData['billing_address']['state'] = $billing->getRegionCode();

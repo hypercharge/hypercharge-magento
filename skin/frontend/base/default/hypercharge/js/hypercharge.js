@@ -83,6 +83,10 @@ Hyper = Class.create({
     setShippingAddress: function(shippingAddress) {
         this.shippingAddress = shippingAddress;
     },
+    // Set DOB
+    setDob: function(dob) {
+        this.DOB = dob;
+    },
     setPaymentMethod: function(method) {
         this.paymentMethod = method;
     },
@@ -131,13 +135,21 @@ Hyper = Class.create({
         if (shippingAddress) {
             json += this.shippingAddress;
             // get dob
-            var dob = document.getElementById('poa-dob').value;            
-            json += "\"risk_params\":{\"birthday\":\"" + dob + "\"},";
+            var dob = document.getElementById('poa-dob').value;
+            if (dob) {
+                json += "\"risk_params\":{\"birthday\":\"" + dob + "\"},";
+            }
+        }
+        if (this.DOB) {
+            var dobGtd = document.getElementById('gtd-dob').value;
+            if (dobGtd) {
+                json += "\"risk_params\":{\"birthday\":\"" + dobGtd + "\"},";
+            }
         }
         json += "\"header_origin\" : \"" + this.headerOrigin + "\"," ;
         json += "\"payment_method\" : \"" + this.paymentMethod + "\" } } ";
 
-        var data = json.evalJSON(true); 
+        var data = json.evalJSON(true);
         var successUrl = this.successUrl;
         var errorUrl = this.errorUrl;
 
@@ -155,10 +167,15 @@ Hyper = Class.create({
             success: function(result) {
                 var xml = jQuery(result);
                 var transactionStatus = xml.find("status").text();
+
                 if (transactionStatus == 'approved' || transactionStatus == 'pending_async') {
                     window.location.href = successUrl;
                     return;
                 } else {
+                    var errorMessage = xml.find("technical_message").text(), data = "";
+                    if (errorMessage) {
+                        //data = "err=" +
+                    }
                     window.location.href = errorUrl;
                     return;
                 }
@@ -274,7 +291,23 @@ Validation.add('validate-poa-age','For this payment method you must be at least 
         return false;
     }
     return false;
-}); 
+});
+Validation.add('validate-gtd-age','For this payment method you must be at least 18 years old.',function(v) {
+    if (v != '') {
+        var dateParts = v.split("-");
+        var dob = new Date(dateParts[0], dateParts[1]-1, dateParts[2]);
+        var now = new Date();
+        age = now - dob;
+        // get 18 years ago date
+        var compareDate = new Date(now.getFullYear()-18, now.getMonth(), now.getDate());
+        age18 = now - compareDate;
+        if (age > age18) {
+            return true;
+        }
+        return false;
+    }
+    return false;
+});
 Validation.add('required-agreement','You must agree to the terms and conditions of this payment method.',function(v) {
     return !Validation.get('IsEmpty').test(v);
 });

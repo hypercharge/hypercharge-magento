@@ -1,7 +1,7 @@
 <?php
 namespace Hypercharge;
 
-const SCHEMA_VERSION = '1.25.0';
+const SCHEMA_VERSION = '1.25.2';
 
 class JsonSchemaValidator {
 	private $schemaUri;
@@ -11,15 +11,17 @@ class JsonSchemaValidator {
 	* @param string $schemaName  e.g. "MobilePayment" for /json/MobilePayment.json  or "sale" for /json/sale.json
 	*/
 	function __construct($schemaName) {
-
 		$this->schemaUri = 'file://'. self::schemaPathFor($schemaName);
+
+		//var_dump('schemaUri', $this->schemaUri);
+
 		$retriever = new \JsonSchema\Uri\UriRetriever;
 		$this->schema = $retriever->retrieve($this->schemaUri);
+
 		// If you use '$ref' or 'extends' or if you are unsure, resolve those references here
 		// This modifies the $schema object
 		$refResolver = new \JsonSchema\RefResolver($retriever);
 		$refResolver->resolve($this->schema, $this->schemaUri);
-
 	}
 
 	/**
@@ -30,8 +32,8 @@ class JsonSchemaValidator {
 		// recursively convert $object to a StdClass based structure
 		// json-schema-php can only handle objects correctly - instead of assoc arrays
 		// not scalable but thats not an issue here, data sets to validate are small.
+		$object = json_decode(json_encode($object));
 
-        $object = json_decode(json_encode($object));
 		$validator = new \JsonSchema\Validator();
 		$validator->check($object, $this->schema);
 		$errors = $validator->getErrors();

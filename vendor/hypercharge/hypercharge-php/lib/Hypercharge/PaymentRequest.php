@@ -61,6 +61,7 @@ class PaymentRequest implements IRequest {
 
 	function validate() {
         $errors = JsonSchema::check($this);
+        file_put_contents("test.log", var_export($errors, true));
 		if($errors) throw new Errors\ValidationError($errors);
 	}
 

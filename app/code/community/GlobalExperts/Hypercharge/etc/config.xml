@@ -28,7 +28,7 @@
 <config>
     <modules>
         <GlobalExperts_Hypercharge>            
-            <version>1.0.6</version>
+            <version>1.0.7</version>
         </GlobalExperts_Hypercharge>
     </modules>
  
@@ -149,6 +149,15 @@
                 <allowspecific>0</allowspecific>
                 <test>1</test>
             </hypercharge_mobile_sepa>
+            <hypercharge_mobile_gtd>
+                <active>0</active>
+                <model>bithypercharge/gtddebit</model>
+                <order_status>processing</order_status>
+                <title>GTD Sepa Debit Sale (Hypercharge)</title>
+                <payment_action>authorize_capture</payment_action>
+                <allowspecific>0</allowspecific>
+                <test>1</test>
+            </hypercharge_mobile_gtd>
             <hypercharge_wpf_ideal>
                 <active>0</active>                
                 <model>bithypercharge/ideal</model>                
