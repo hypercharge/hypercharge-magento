@@ -172,10 +172,10 @@ Hyper = Class.create({
                     window.location.href = successUrl;
                     return;
                 } else {
-                    var errorMessage = xml.find("technical_message").text(), data = "";
-                    if (errorMessage) {
-                        //data = "err=" +
-                    }
+                    //var errorMessage = xml.find("technical_message").text(), data = "";
+                    //if (errorMessage) {
+                    //    //data = "err=" +
+                    //}
                     window.location.href = errorUrl;
                     return;
                 }

@@ -255,14 +255,6 @@ class GlobalExperts_Hypercharge_Model_Mobile extends Mage_Payment_Model_Method_A
                 ->setIsTransactionClosed(0);
             $order->registerCancellation('Payment error.', false);
             $order->save();
-//            // send mail for POA with Payolution
-//            if ($paymentMethod == 'GlobalExperts_Hypercharge_Model_Mobilepurchaseaccount') {
-//	            $comment = Mage::getStoreConfig('payment/hypercharge_mobile_purchase_on_account/errormsg');
-//                $comment = str_replace("{{shop_email_address}}", Mage::getStoreConfig('general/ident_sales/email', $order->getStoreId()), $comment);
-//                $order->addStatusToHistory($order->getStatus(), $comment, false);
-//                $order->sendOrderUpdateEmail(true, $comment);
-//                $order->save();
-//            }
             return $xml;
         }
         
@@ -367,18 +359,28 @@ class GlobalExperts_Hypercharge_Model_Mobile extends Mage_Payment_Model_Method_A
         else 
             $transactionAmount = $response->amount;
 
+        //get wire_ref_id
+        $wire_reference_id = "";
+        if($transaction && $transaction->wire_reference_id) {
+            $wire_reference_id = $transaction->wire_reference_id;
+        }
+
 
         // Set some extra info
         $order->getPayment()
             ->setAdditionalInformation('Last Transaction ID', $transactionId)
             ->setAdditionalInformation('Transaction Type', $transactionType)
             ->setAdditionalInformation('Transaction Status', $response->status);
-        
+
+        if ($wire_reference_id) {
+            $order->getPayment()->setAdditionalInformation('Wire Reference ID', $wire_reference_id);
+        }
+
         try {
             switch($response->status) {
                 case 'approved':
                 case 'chargeback_reversed':
-                    if($is_sale) {
+                    if ($is_sale) {
                         $order->getPayment()
                             ->setPreparedMessage('Payment authorized.')
                             ->setTransactionId($transactionId)
@@ -393,7 +395,7 @@ class GlobalExperts_Hypercharge_Model_Mobile extends Mage_Payment_Model_Method_A
                         $order->save();
                         $order->getPayment()->capture();
                         break;
-                    }                    
+                    }
                     $order->getPayment()
                         ->setTransactionId($transactionId)
                         ->setPreparedMessage('Transaction successful.')
@@ -433,6 +435,9 @@ class GlobalExperts_Hypercharge_Model_Mobile extends Mage_Payment_Model_Method_A
                         ->setAdditionalInformation('Transaction Status', $response->status)
                         ->setIsTransactionClosed(0)
                         ->registerPaymentReviewAction(Mage_Sales_Model_Order_Payment::REVIEW_ACTION_UPDATE, false);
+                    if (!$order->getEmailSent()) {
+                        $order->sendNewOrderEmail();
+                    }
                     $order->save();
                     break;
             }

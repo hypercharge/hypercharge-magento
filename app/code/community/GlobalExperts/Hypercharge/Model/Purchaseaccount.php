@@ -31,7 +31,7 @@ class GlobalExperts_Hypercharge_Model_Purchaseaccount extends GlobalExperts_Hype
     protected $_code = 'hypercharge_wpf_purchase_on_account';
     
     public function getTransactionType() {
-        return 'purchase_on_account';
+        return 'gtd_purchase_on_account';
     }
     
 }

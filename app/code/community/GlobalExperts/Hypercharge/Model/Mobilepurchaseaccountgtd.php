@@ -24,13 +24,13 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 
-class GlobalExperts_Hypercharge_Model_Mobilepurchaseaccount extends GlobalExperts_Hypercharge_Model_Mobile {
+class GlobalExperts_Hypercharge_Model_Mobilepurchaseaccountgtd extends GlobalExperts_Hypercharge_Model_Mobile {
 
     // unique internal payment method identifier
     // @var string [a-z0-9_]
-    protected $_code = 'hypercharge_mobile_purchase_on_account';
+    protected $_code = 'hypercharge_mobile_purchase_on_account_gtd';
     // Define payment block form
-    protected $_formBlockType = 'bithypercharge/form_purchaseonaccount';
+    protected $_formBlockType = 'bithypercharge/form_purchaseonaccountgtd';
     // Info block type
     protected $_infoBlockType = 'bithypercharge/info_debit';
     // Can capture funds online?
@@ -48,7 +48,7 @@ class GlobalExperts_Hypercharge_Model_Mobilepurchaseaccount extends GlobalExpert
     // Can save credit card information for future processing?
     protected $_canSaveCc = false;
 
-    protected $_jsonTransactionType = "purchase_on_account";
+    protected $_jsonTransactionType = "gtd_purchase_on_account";
     /**
      * Validate payment method information object
      *

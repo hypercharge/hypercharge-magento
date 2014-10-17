@@ -207,6 +207,7 @@ class Payment implements IResponse {
 		$request = new SimplePaymentReturningRequest('reconcile', $unique_id);
 		$request->validate();
 		$factory = Config::getFactory();
+
 		$url = $factory->createPaymentUrl('reconcile');
 		return $factory->createWebservice()->call($url, $request);
 	}

@@ -27,6 +27,7 @@
 class GlobalExperts_Hypercharge_NotificationController extends Mage_Core_Controller_Front_Action {
     
     public function responseAction() {
+        Mage::log("response from hyper", null, "hyper_response.log");
         $this->getResponse()
                 ->setHeader('Content-type', 'text/xml; charset=utf8')
                 ->setBody($this->getLayout()

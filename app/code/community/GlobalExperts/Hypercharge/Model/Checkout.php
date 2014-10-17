@@ -811,6 +811,9 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
                             ->registerPaymentReviewAction(
                                     Mage_Sales_Model_Order_Payment
                                     ::REVIEW_ACTION_UPDATE, false);
+                    if (!$order->getEmailSent()) {
+                        $order->sendNewOrderEmail();
+                    }
                     $order->save();
                     break;
             }

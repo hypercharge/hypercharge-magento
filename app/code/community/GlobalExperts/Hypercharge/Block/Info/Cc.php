@@ -48,6 +48,12 @@ class GlobalExperts_Hypercharge_Block_Info_Cc extends Mage_Payment_Block_Info {
                 Mage::helper('bithypercharge')->__('Transaction Status') => $this->htmlEscape($payment->getAdditionalInformation('Transaction Status'))
             ));      
         }
+
+        if ($this->htmlEscape($payment->getAdditionalInformation('Wire Reference ID'))) {
+            $transport->addData(array(
+                Mage::helper('bithypercharge')->__('Wire Reference ID') => $this->htmlEscape($payment->getAdditionalInformation('Wire Reference ID'))
+            ));
+        }
         return $transport;
     }
     

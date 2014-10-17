@@ -182,13 +182,22 @@
                 <active>0</active>                
                 <model>bithypercharge/mobilepurchaseaccount</model>                
                 <order_status>processing</order_status>
-                <title>Purchase On Account - Payolution</title>
+                <title>Purchase On Account</title>
                 <payment_action>authorize_capture</payment_action>
                 <allowspecific>0</allowspecific>
-                <test>1</test> 
+                <test>1</test>
+            </hypercharge_mobile_purchase_on_account>
+            <hypercharge_mobile_purchase_on_account_gtd>
+                <active>0</active>
+                <model>bithypercharge/mobilepurchaseaccountgtd</model>
+                <order_status>processing</order_status>
+                <title>GTD Purchase On Account - Payolution</title>
+                <payment_action>authorize_capture</payment_action>
+                <allowspecific>0</allowspecific>
+                <test>1</test>
                 <terms><![CDATA[Mit der &Uuml;bermittlung der f&uuml;r die Abwicklung des Rechnungskaufes und einer Identit&auml;ts- und Bonit&auml;tspr&uuml;fung erforderlichen Daten an payolution bin ich einverstanden. <a href="https://payment.payolution.com/payolution-payment/infoport/dataprivacyconsent?mId=SMOkbmRsZXIgeHh4" target="_blank">Meine Einwilligung</a> kann ich jederzeit mit Wirkung f&uuml;r die Zukunft widerrufen.]]></terms>
                 <errormsg><![CDATA[Ein Rechnungskauf ist leider nicht m&ouml;glich. Dies kann unterschiedliche Gr&uuml;nde haben. Bitte versuchen Sie es erneut und achten Sie dabei auf folgende Punkte:<br/>- Korrekte Schreibweise aller Angaben<br/>- Ihr korrektes Geburtsdatum<br/>- Anschrift und Namen in der Rechnungsadresse m&uuml;ssen mit der Meldeadresse &uuml;bereinstimmen<br/>- Keine Postfachadresse<br/>Sollte der Versuch erneut fehlschlagen, w&auml;hlen Sie bitte eine andere Zahlungsart oder kontaktieren Sie {{shop_email_address}}<br/>Vielen Dank.<br/>]]></errormsg>
-            </hypercharge_mobile_purchase_on_account>
+            </hypercharge_mobile_purchase_on_account_gtd>
             <hypercharge_wpf_purchase_on_account>
                 <active>0</active>                
                 <model>bithypercharge/purchaseaccount</model>                

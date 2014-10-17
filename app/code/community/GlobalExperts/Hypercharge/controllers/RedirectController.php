@@ -47,9 +47,9 @@ class GlobalExperts_Hypercharge_RedirectController extends Mage_Core_Controller_
         $order->addStatusToHistory($order->getStatus(), 
             Mage::helper('wpf')->__('Customer was redirected to Hypercharge.'));
         $order->save();
-        
+
         die('redirect');
-        
+
         
         if($url)
             $this->getResponse()->setRedirect($url, 302);
