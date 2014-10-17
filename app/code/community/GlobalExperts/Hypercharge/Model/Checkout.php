@@ -775,6 +775,7 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
                     if (!$order->getEmailSent())
                         $order->sendNewOrderEmail();
                     $order->save();
+                    $order->getPayment()->capture();
                     break;
                 case 'declined':
                     $order->registerCancellation('Payment was declined.', false)

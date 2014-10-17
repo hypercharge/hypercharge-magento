@@ -158,26 +158,6 @@
                 <allowspecific>0</allowspecific>
                 <test>1</test>
             </hypercharge_mobile_gtd>
-            <hypercharge_wpf_ideal>
-                <active>0</active>                
-                <model>bithypercharge/ideal</model>                
-                <order_status>processing</order_status>
-                <title>IDeal (Hypercharge)</title>                
-                <allowspecific>0</allowspecific>
-                <mode>1</mode>
-                <use_iframe>1</use_iframe>      
-                <check_address>0</check_address>          
-            </hypercharge_wpf_ideal>
-            <hypercharge_wpf_paypal>
-                <active>0</active>                
-                <model>bithypercharge/paypal</model>                
-                <order_status>processing</order_status>
-                <title>PayPal (Hypercharge)</title>                
-                <allowspecific>0</allowspecific>
-                <mode>1</mode>
-                <use_iframe>1</use_iframe>      
-                <check_address>0</check_address>          
-            </hypercharge_wpf_paypal>
             <hypercharge_mobile_purchase_on_account>
                 <active>0</active>                
                 <model>bithypercharge/mobilepurchaseaccount</model>                
@@ -201,7 +181,7 @@
             <hypercharge_wpf_purchase_on_account>
                 <active>0</active>                
                 <model>bithypercharge/purchaseaccount</model>                
-                <order_status>processing</order_status>
+                <order_status>pending_payment</order_status>
                 <title>Purchase On Account (Hypercharge)</title>                
                 <allowspecific>0</allowspecific>
                 <mode>1</mode>
@@ -210,8 +190,8 @@
             </hypercharge_wpf_purchase_on_account>
             <hypercharge_wpf_sofort>
                 <active>0</active>                
-                <model>bithypercharge/sofort</model>                
-                <order_status>processing</order_status>
+                <model>bithypercharge/sofort</model>
+                <order_status>pending_payment</order_status>
                 <title>Direct Pay24 (Hypercharge)</title>                
                 <allowspecific>0</allowspecific>
                 <mode>1</mode>
@@ -220,8 +200,8 @@
             </hypercharge_wpf_sofort>
             <hypercharge_wpf_giropay>
                 <active>0</active>                
-                <model>bithypercharge/giropay</model>                
-                <order_status>processing</order_status>
+                <model>bithypercharge/giropay</model>
+                <order_status>pending_payment</order_status>
                 <title>Giro Pay (Hypercharge)</title>                
                 <allowspecific>0</allowspecific>
                 <mode>1</mode>
@@ -230,8 +210,8 @@
             </hypercharge_wpf_giropay>
             <hypercharge_wpf_pay_in_advance>
                 <active>0</active>                
-                <model>bithypercharge/payinadvance</model>                
-                <order_status>processing</order_status>
+                <model>bithypercharge/payinadvance</model>
+                <order_status>pending_payment</order_status>
                 <title>Pay In Advance (Hypercharge)</title>                
                 <allowspecific>0</allowspecific>
                 <mode>1</mode>
@@ -240,8 +220,8 @@
             </hypercharge_wpf_pay_in_advance>
             <hypercharge_wpf_pay_safe>
                 <active>0</active>                
-                <model>bithypercharge/paysafe</model>                
-                <order_status>processing</order_status>
+                <model>bithypercharge/paysafe</model>
+                <order_status>pending_payment</order_status>
                 <title>Pay Safe Card (Hypercharge)</title>                
                 <allowspecific>0</allowspecific>
                 <mode>1</mode>
@@ -250,14 +230,34 @@
             </hypercharge_wpf_pay_safe>
             <hypercharge_wpf_payment_on_delivery>
                 <active>0</active>                
-                <model>bithypercharge/paymentondelivery</model>                
-                <order_status>processing</order_status>
+                <model>bithypercharge/paymentondelivery</model>
+                <order_status>pending_payment</order_status>
                 <title>Payment On Delivery (Hypercharge)</title>                
                 <allowspecific>0</allowspecific>
                 <mode>1</mode>
                 <use_iframe>1</use_iframe> 
                 <check_address>0</check_address>
             </hypercharge_wpf_payment_on_delivery>
+            <hypercharge_wpf_ideal>
+                <active>0</active>
+                <model>bithypercharge/ideal</model>
+                <order_status>pending_payment</order_status>
+                <title>IDeal (Hypercharge)</title>
+                <allowspecific>0</allowspecific>
+                <mode>1</mode>
+                <use_iframe>1</use_iframe>
+                <check_address>0</check_address>
+            </hypercharge_wpf_ideal>
+            <hypercharge_wpf_paypal>
+                <active>0</active>
+                <model>bithypercharge/paypal</model>
+                <order_status>pending_payment</order_status>
+                <title>PayPal (Hypercharge)</title>
+                <allowspecific>0</allowspecific>
+                <mode>1</mode>
+                <use_iframe>1</use_iframe>
+                <check_address>0</check_address>
+            </hypercharge_wpf_paypal>
         </payment>
     </default>
 </config>
