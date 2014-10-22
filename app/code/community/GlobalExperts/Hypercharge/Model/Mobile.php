@@ -308,11 +308,9 @@ class GlobalExperts_Hypercharge_Model_Mobile extends Mage_Payment_Model_Method_A
             //$response->status = 'approved';
         }
         
-        if(!$response || ($response->status && $response->status == 'error')) {// Reconcile request failed
-            Mage::helper('bithypercharge')->logger("\n" . $timestamp . ' Reconcile request failed');            
-            return $xml;
-        }        
-        
+
+        Mage::helper('bithypercharge')->logger("\n" . 'Reconcile Response: ' . print_r($response, true));
+
         //Get the transaction type
         $transaction = null;
         if($response->payment_transaction)

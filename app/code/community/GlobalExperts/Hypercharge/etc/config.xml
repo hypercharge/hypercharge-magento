@@ -125,7 +125,7 @@
                 <active>0</active>
                 <model>bithypercharge/cc</model>
                 <order_status>processing</order_status>
-                <title>Credit Card (Hypercharge)</title>
+                <title>Credit Card</title>
                 <cctypes>VI,MC,AE,DI,JCB,OT</cctypes>
                 <payment_action>authorize_capture</payment_action>
                 <allowspecific>0</allowspecific>
@@ -135,7 +135,7 @@
                 <active>0</active>                
                 <model>bithypercharge/debit</model>                
                 <order_status>processing</order_status>
-                <title>Direct Debit (Hypercharge)</title>                 
+                <title>Debit Sale</title>
                 <payment_action>authorize_capture</payment_action>
                 <allowspecific>0</allowspecific>
                 <test>1</test>
@@ -144,7 +144,7 @@
                 <active>0</active>
                 <model>bithypercharge/sepa</model>
                 <order_status>processing</order_status>
-                <title>SEPA (Hypercharge)</title>
+                <title>SEPA Debit Sale</title>
                 <payment_action>authorize_capture</payment_action>
                 <allowspecific>0</allowspecific>
                 <test>1</test>
@@ -153,7 +153,7 @@
                 <active>0</active>
                 <model>bithypercharge/gtddebit</model>
                 <order_status>processing</order_status>
-                <title>GTD Sepa Debit Sale (Hypercharge)</title>
+                <title>Guaranteed SEPA Debit Sale</title>
                 <payment_action>authorize_capture</payment_action>
                 <allowspecific>0</allowspecific>
                 <test>1</test>
@@ -171,7 +171,7 @@
                 <active>0</active>
                 <model>bithypercharge/mobilepurchaseaccountgtd</model>
                 <order_status>processing</order_status>
-                <title>GTD Purchase On Account - Payolution</title>
+                <title>Guaranteed Purchase On Account</title>
                 <payment_action>authorize_capture</payment_action>
                 <allowspecific>0</allowspecific>
                 <test>1</test>
@@ -182,7 +182,7 @@
                 <active>0</active>                
                 <model>bithypercharge/purchaseaccount</model>                
                 <order_status>pending_payment</order_status>
-                <title>Purchase On Account (Hypercharge)</title>                
+                <title>Purchase On Account</title>
                 <allowspecific>0</allowspecific>
                 <mode>1</mode>
                 <use_iframe>1</use_iframe> 
@@ -192,7 +192,7 @@
                 <active>0</active>                
                 <model>bithypercharge/sofort</model>
                 <order_status>pending_payment</order_status>
-                <title>Direct Pay24 (Hypercharge)</title>                
+                <title>Direct Pay24</title>
                 <allowspecific>0</allowspecific>
                 <mode>1</mode>
                 <use_iframe>1</use_iframe> 
@@ -202,7 +202,7 @@
                 <active>0</active>                
                 <model>bithypercharge/giropay</model>
                 <order_status>pending_payment</order_status>
-                <title>Giro Pay (Hypercharge)</title>                
+                <title>Giro Pay</title>
                 <allowspecific>0</allowspecific>
                 <mode>1</mode>
                 <use_iframe>1</use_iframe> 
@@ -212,7 +212,7 @@
                 <active>0</active>                
                 <model>bithypercharge/payinadvance</model>
                 <order_status>pending_payment</order_status>
-                <title>Pay In Advance (Hypercharge)</title>                
+                <title>Pay In Advance</title>
                 <allowspecific>0</allowspecific>
                 <mode>1</mode>
                 <use_iframe>1</use_iframe> 
@@ -222,7 +222,7 @@
                 <active>0</active>                
                 <model>bithypercharge/paysafe</model>
                 <order_status>pending_payment</order_status>
-                <title>Pay Safe Card (Hypercharge)</title>                
+                <title>Pay Safe Card</title>
                 <allowspecific>0</allowspecific>
                 <mode>1</mode>
                 <use_iframe>1</use_iframe> 
@@ -232,7 +232,7 @@
                 <active>0</active>                
                 <model>bithypercharge/paymentondelivery</model>
                 <order_status>pending_payment</order_status>
-                <title>Payment On Delivery (Hypercharge)</title>                
+                <title>Payment On Delivery</title>
                 <allowspecific>0</allowspecific>
                 <mode>1</mode>
                 <use_iframe>1</use_iframe> 
@@ -242,7 +242,7 @@
                 <active>0</active>
                 <model>bithypercharge/ideal</model>
                 <order_status>pending_payment</order_status>
-                <title>IDeal (Hypercharge)</title>
+                <title>iDeal</title>
                 <allowspecific>0</allowspecific>
                 <mode>1</mode>
                 <use_iframe>1</use_iframe>
@@ -252,7 +252,7 @@
                 <active>0</active>
                 <model>bithypercharge/paypal</model>
                 <order_status>pending_payment</order_status>
-                <title>PayPal (Hypercharge)</title>
+                <title>PayPal</title>
                 <allowspecific>0</allowspecific>
                 <mode>1</mode>
                 <use_iframe>1</use_iframe>

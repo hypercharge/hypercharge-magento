@@ -682,6 +682,8 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
             return $xml;
         }
 
+        Mage::helper('bithypercharge')->logger("\n" . 'Reconcile Response: ' . print_r($response, true));
+
         if (!$mode) {
             $respString = print_r($response, true);
             $postData = print_r($post, true);
@@ -775,6 +777,7 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
                     if (!$order->getEmailSent())
                         $order->sendNewOrderEmail();
                     $order->save();
+
                     $order->getPayment()->capture();
                     break;
                 case 'declined':
