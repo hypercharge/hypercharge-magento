@@ -33,9 +33,9 @@ class GlobalExperts_Hypercharge_Block_Form_Sofort extends Mage_Payment_Block_For
         parent::_construct();
         $mark = Mage::getConfig()->getBlockClassName('core/template');
         $mark = new $mark;
-        $mark->setTemplate('hypercharge/form/sofort_mark.phtml'); // known issue: code above will render only static mark image
+        $mark->setTemplate('hypercharge/form/sofort_mark.phtml');
         $mark->setMethodLabel(Mage::getStoreConfig('payment/hypercharge_wpf_sofort/title'));
-        $this->setMethodTitle('') // Output mark, omit title
+        $this->setMethodTitle('')
             ->setMethodLabelAfterHtml($mark->toHtml());
         return parent::_construct();
     } 

@@ -26,8 +26,6 @@
 
 class GlobalExperts_Hypercharge_Model_Paymentondelivery extends GlobalExperts_Hypercharge_Model_Checkout {
 
-    // unique internal payment method identifier
-    // @var string [a-z0-9_]
     protected $_code = 'hypercharge_wpf_payment_on_delivery';
     
     public function getTransactionType() {

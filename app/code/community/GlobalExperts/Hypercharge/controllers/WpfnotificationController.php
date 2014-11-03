@@ -26,7 +26,12 @@
 
 class GlobalExperts_Hypercharge_WpfnotificationController extends Mage_Core_Controller_Front_Action {
 
+    /**
+     * After a payment is initialize HyperCharge Gateway calls the notification URL in order to do a reconcile action
+     */
+
     public function wpfAction() {
+        Mage::log("POST wpf" . var_export($this->getRequest()->getPost(), true), null, "hypercharge-reconcile-post.log");
         $this->getResponse()
                 ->setHeader('Content-type', 'text/xml; charset=utf8')
                 ->setBody($this->getLayout()

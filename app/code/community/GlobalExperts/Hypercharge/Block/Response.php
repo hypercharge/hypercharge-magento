@@ -27,8 +27,9 @@
 class GlobalExperts_Hypercharge_Block_Response extends Mage_Core_Block_Abstract {
     
     protected function _toHtml() {        
-        $model = Mage::getModel('bithypercharge/cc');        
-        $xml = $model->hyperResponse($this->getRequest()->getPost());
+        $model = Mage::getModel('bithypercharge/cc');
+        $post = $this->getRequest()->getPost();
+        $xml = $model->hyperResponse($post);
         if($xml)
             return $xml;
         return '<?xml version="1.0" encoding="utf-8"?><root />';

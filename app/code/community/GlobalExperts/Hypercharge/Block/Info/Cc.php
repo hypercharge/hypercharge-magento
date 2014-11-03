@@ -34,15 +34,16 @@ class GlobalExperts_Hypercharge_Block_Info_Cc extends Mage_Payment_Block_Info {
     protected $_isCheckoutProgressBlockFlag = true;
         
     protected function _prepareSpecificInformation($transport = null) {
-        $info = parent::_prepareSpecificInformation($transport);
+        parent::_prepareSpecificInformation($transport);
         $payment = $this->getInfo();
         $transport = new Varien_Object();
-        $paymentInfo = $payment->getAdditionalInformation();        
+
         if ($this->htmlEscape($payment->getAdditionalInformation('Last Transaction ID'))) {
             $transport->addData(array(
                 Mage::helper('bithypercharge')->__('Last Transaction ID') => $this->htmlEscape($payment->getAdditionalInformation('Last Transaction ID'))
             ));      
         }
+
         if ($this->htmlEscape($payment->getAdditionalInformation('Transaction Status'))) {
             $transport->addData(array(
                 Mage::helper('bithypercharge')->__('Transaction Status') => $this->htmlEscape($payment->getAdditionalInformation('Transaction Status'))

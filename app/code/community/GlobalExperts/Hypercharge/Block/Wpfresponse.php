@@ -28,7 +28,8 @@ class GlobalExperts_Hypercharge_Block_Wpfresponse extends Mage_Core_Block_Abstra
     
     protected function _toHtml() {        
         $model = Mage::getModel('bithypercharge/checkout');
-        $xml = $model->wpfResponse($this->getRequest()->getPost());
+        $post = $this->getRequest()->getPost();
+        $xml = $model->wpfResponse($post);
         if($xml)
             return $xml;
         return '<?xml version="1.0" encoding="utf-8"?><root />';

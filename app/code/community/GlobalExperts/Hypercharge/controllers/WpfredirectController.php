@@ -28,12 +28,25 @@ class GlobalExperts_Hypercharge_WpfredirectController extends Mage_Core_Controll
 
     protected $order;
 
+    /**
+     * Get singleton of Checkout Session Model
+     *
+     * @return Mage_Checkout_Model_Session
+     */
+    public function getCheckout() {
+        return Mage::getSingleton('checkout/session');
+    }
+
     protected function _expireAjax() {
         if (!Mage::getSingleton('checkout/session')->getQuote()->hasItems()) {
             $this->getResponse()->setHeader('HTTP/1.1', '403 Session Expired');
             exit;
         }
     }
+
+    /**
+     * Customer Redirection to HyperCharge Gateway
+     */
 
     public function redirectAction() {
         $session = $this->getCheckout();
@@ -54,6 +67,10 @@ class GlobalExperts_Hypercharge_WpfredirectController extends Mage_Core_Controll
         $session->unsQuoteId();
     }
 
+    /**
+     * Success action after initialize
+     */
+
     public function successAction() {
         $session = Mage::getSingleton('checkout/session');
         $session->unsHyperchargeRealOrderId();
@@ -64,6 +81,10 @@ class GlobalExperts_Hypercharge_WpfredirectController extends Mage_Core_Controll
                 ->setIsActive(false)->save();
         echo '<script type="text/javascript">window.top.location.href = "' . Mage::getUrl('checkout/onepage/success') . '"; </script>';
     }
+
+    /**
+     * Failure action after initialize
+     */
 
     public function failureAction() {
         Mage::getSingleton('core/session')->unsHyperRedirectUrl();
@@ -77,6 +98,10 @@ class GlobalExperts_Hypercharge_WpfredirectController extends Mage_Core_Controll
         }
         echo '<script type="text/javascript">window.top.location.href = "' . Mage::getUrl('checkout/onepage/failure') . '"; </script>';
     }
+
+    /**
+     * Cancel action after initialize
+     */
 
     public function cancelAction() {
         Mage::getSingleton('core/session')->unsHyperRedirectUrl();
@@ -92,13 +117,8 @@ class GlobalExperts_Hypercharge_WpfredirectController extends Mage_Core_Controll
     }
 
     /**
-     * Get singleton of Checkout Session Model
-     *
-     * @return Mage_Checkout_Model_Session
+     * Load the iFrame for HyperCharge depending on the payment method set
      */
-    public function getCheckout() {
-        return Mage::getSingleton('checkout/session');
-    }
 
     public function hyperchargeAction() {
         $this->loadLayout();

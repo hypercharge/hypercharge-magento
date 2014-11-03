@@ -25,9 +25,13 @@
  */
 
 class GlobalExperts_Hypercharge_NotificationController extends Mage_Core_Controller_Front_Action {
-    
+
+    /**
+     * After a payment is initialize HyperCharge Gateway calls the notification URL in order to do a reconcile action
+     */
+
     public function responseAction() {
-        Mage::log("response from hyper", null, "hyper_response.log");
+        Mage::log("POST Mobile" . var_export($this->getRequest()->getPost(), true), null, "hypercharge-reconcile-post.log");
         $this->getResponse()
                 ->setHeader('Content-type', 'text/xml; charset=utf8')
                 ->setBody($this->getLayout()

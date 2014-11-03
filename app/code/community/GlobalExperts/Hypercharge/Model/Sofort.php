@@ -26,11 +26,7 @@
 
 class GlobalExperts_Hypercharge_Model_Sofort extends GlobalExperts_Hypercharge_Model_Checkout {
 
-    // unique internal payment method identifier
-    // @var string [a-z0-9_]
     protected $_code = 'hypercharge_wpf_sofort';
-    
-    // Define payment block form
     protected $_formBlockType = 'bithypercharge/form_sofort';
     
     public function getTransactionType() {

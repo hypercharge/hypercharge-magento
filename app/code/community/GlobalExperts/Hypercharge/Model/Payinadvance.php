@@ -26,8 +26,6 @@
 
 class GlobalExperts_Hypercharge_Model_Payinadvance extends GlobalExperts_Hypercharge_Model_Checkout {
 
-    // unique internal payment method identifier
-    // @var string [a-z0-9_]
     protected $_code = 'hypercharge_wpf_pay_in_advance';
     
     public function getTransactionType() {

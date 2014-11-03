@@ -369,7 +369,7 @@
                             <label>Enabled</label>                            
                             <frontend_type>select</frontend_type>                            
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>10</sort_order>                            
+                            <sort_order>11</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -383,6 +383,15 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </test>
+                        <requiredob translate="label">
+                            <label>Require Date of Birth</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>21</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </requiredob>
                         <allowspecific translate="label">
                             <label>Payment from Applicable Countries</label>
                             <frontend_type>allowspecific</frontend_type>
@@ -478,15 +487,6 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </terms>
-                        <errormsg>
-                            <label>Acceptance Checkbox Text</label>
-                            <frontend_type>textarea</frontend_type>
-                            <sort_order>120</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <comment>Use {{shop_email_address}} to have the store email address dynamically(System->Configuration->Store Email Addresses->Sales Representative.)</comment>
-                        </errormsg>
                     </fields>
                 </hypercharge_mobile_purchase_on_account_gtd>
                 <hypercharge_mobile_gtd translate="label" module="bithypercharge">

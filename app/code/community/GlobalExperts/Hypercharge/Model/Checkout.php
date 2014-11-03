@@ -570,6 +570,7 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
      * @return mixed 
      */
     public function wpfResponse($post) {
+        Mage::log("response from hyper", null, "hyper-notif.log");
         $gate = Mage::helper('bithypercharge/gateway');
         $hypercharge_channels = $this->getConfigChannels();
         $timestamp = date('Y-m-d H:i:s', time() + 10800);
@@ -811,10 +812,10 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
                     $order->getPayment()
                             ->setPreparedMessage('Payment not complete yet.')
                             ->setTransactionId($transaction['unique_id'])
-                            ->setIsTransactionClosed(0)
-                            ->registerPaymentReviewAction(
-                                    Mage_Sales_Model_Order_Payment
-                                    ::REVIEW_ACTION_UPDATE, false);
+                            ->setIsTransactionClosed(0);
+//                            ->registerPaymentReviewAction(
+//                                    Mage_Sales_Model_Order_Payment
+//                                    ::REVIEW_ACTION_UPDATE, false);
                     if (!$order->getEmailSent()) {
                         $order->sendNewOrderEmail();
                     }

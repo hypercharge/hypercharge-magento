@@ -33,9 +33,9 @@ class GlobalExperts_Hypercharge_Block_Form_Ideal extends Mage_Payment_Block_Form
         parent::_construct();
         $mark = Mage::getConfig()->getBlockClassName('core/template');
         $mark = new $mark;
-        $mark->setTemplate('hypercharge/form/ideal_mark.phtml'); // known issue: code above will render only static mark image
+        $mark->setTemplate('hypercharge/form/ideal_mark.phtml');
         $mark->setMethodLabel(Mage::getStoreConfig('payment/hypercharge_wpf_ideal/title'));
-        $this->setMethodTitle('') // Output mark, omit title
+        $this->setMethodTitle('')
             ->setMethodLabelAfterHtml($mark->toHtml());
         return parent::_construct();
     } 

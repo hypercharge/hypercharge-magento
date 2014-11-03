@@ -26,11 +26,7 @@
 
 class GlobalExperts_Hypercharge_Model_Paypal extends GlobalExperts_Hypercharge_Model_Checkout {
 
-    // unique internal payment method identifier
-    // @var string [a-z0-9_]
-    protected $_code = 'hypercharge_wpf_paypal'; 
-    
-    // Define payment block form
+    protected $_code = 'hypercharge_wpf_paypal';
     protected $_formBlockType = 'bithypercharge/form_paypal';
     
     public function getTransactionType() {

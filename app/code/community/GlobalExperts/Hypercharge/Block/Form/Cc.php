@@ -33,10 +33,10 @@ class GlobalExperts_Hypercharge_Block_Form_Cc extends Mage_Payment_Block_Form_Cc
 		parent::_construct();
         $mark = Mage::getConfig()->getBlockClassName('core/template');
         $mark = new $mark;
-        $mark->setTemplate('hypercharge/form/cc_mark.phtml'); // known issue: code above will render only static mark image
+        $mark->setTemplate('hypercharge/form/cc_mark.phtml');
         $mark->setMethodLabel(Mage::getStoreConfig('payment/hypercharge_mobile_cc/title'));
         $this->setTemplate('hypercharge/form/cc.phtml')            
-            ->setMethodTitle('') // Output mark, omit title
+            ->setMethodTitle('')
             ->setMethodLabelAfterHtml($mark->toHtml());        
     }
     
