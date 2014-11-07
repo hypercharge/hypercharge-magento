@@ -55,7 +55,7 @@ class GlobalExperts_Hypercharge_Model_Mobilepurchaseaccountgtd extends GlobalExp
             $shipping = $paymentInfo->getQuote()->getShippingAddress();
         }
         // check addresses
-        if (!Mage::helper('bithypercharge')->checkAddresses($billing, $shipping)) {
+        if ($shipping && !Mage::helper('bithypercharge')->checkAddresses($billing, $shipping)) {
             Mage::throwException(Mage::helper('bithypercharge')->__('For this payment method the shipping address must be the same as billing address.'));
         }
         parent::validate();

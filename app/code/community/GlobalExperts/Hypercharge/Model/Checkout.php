@@ -581,7 +581,7 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
         // Check for existence of data
         if (!$hypercharge_channels || !$post || !is_array($post))
             return;
-        Mage::log(var_export($post, true), null, "aabb.log");
+
         if (!($post['payment_status'] && ($post['payment_status'] == 'error' || $post['payment_status'] == 'timeout')))
             if (!array_key_exists('signature', $post) || !array_key_exists('payment_transaction_channel_token', $post) || !array_key_exists('payment_transaction_unique_id', $post) || !array_key_exists('payment_transaction_id', $post) || !array_key_exists('payment_transaction_transaction_type', $post) || !array_key_exists('payment_unique_id', $post) || !array_key_exists('notification_type', $post))
                 return;

@@ -83,6 +83,10 @@ Hyper = Class.create({
     setShippingAddress: function(shippingAddress) {
         this.shippingAddress = shippingAddress;
     },
+    // Set Shipping Address
+    setCompanyName: function(companyName) {
+        this.companyName = companyName;
+    },
     // Set DOB
     setDob: function(dob) {
         this.DOB = dob;
@@ -120,18 +124,23 @@ Hyper = Class.create({
     },
     // submits form data to payment provider
     sendForm: function (formUrl) {
-        var fields = this.storedFields.keys();
+        var companyName = this.companyName;
 
+        var fields = this.storedFields.keys();
         var json = '{ "payment": { ';
         for (var i= 0, l=fields.length; i < l; i ++) {
             json += "\"" + fields[i] + "\" : \"" + this.storedFields.get(fields[i]) + "\",";
-            // extra check for Purchase On Account
-	    // set risk parameters
-	    if (fields[i] == 'birthday'){
-       		json += "\"risk_params\":{\""+fields[i]+"\":\"" + this.storedFields.get(fields[i]) + "\"},";
+	        // set risk parameters
+            if (fields[i] == 'birthday'){
+                json += "\"risk_params\":{\""+fields[i]+"\":\"" + this.storedFields.get(fields[i]) + "\"},";
        	    }
         }
         var shippingAddress = this.shippingAddress;
+
+        if (companyName) {
+            json += "\"company_name\" : \"" + companyName + "\"," ;
+        }
+
         if (shippingAddress) {
             json += this.shippingAddress;
             // get dob
@@ -140,12 +149,14 @@ Hyper = Class.create({
                 json += "\"risk_params\":{\"birthday\":\"" + dob + "\"},";
             }
         }
+
         if (this.DOB) {
             var dobGtd = document.getElementById('gtd-dob').value;
             if (dobGtd) {
                 json += "\"risk_params\":{\"birthday\":\"" + dobGtd + "\"},";
             }
         }
+
         json += "\"header_origin\" : \"" + this.headerOrigin + "\"," ;
         json += "\"payment_method\" : \"" + this.paymentMethod + "\" } } ";
 
