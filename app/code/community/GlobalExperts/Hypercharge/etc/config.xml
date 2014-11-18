@@ -177,6 +177,10 @@
                 <allowspecific>0</allowspecific>
                 <test>1</test>
                 <terms><![CDATA[Mit der &Uuml;bermittlung der f&uuml;r die Abwicklung des Rechnungskaufes und einer Identit&auml;ts- und Bonit&auml;tspr&uuml;fung erforderlichen Daten an payolution bin ich einverstanden. <a style="float:none; display:inline; margin: 0" href="https://payment.payolution.com/payolution-payment/infoport/dataprivacyconsent?mId=SMOkbmRsZXIgeHh4" target="_blank">Meine Einwilligung</a> kann ich jederzeit mit Wirkung f&uuml;r die Zukunft widerrufen.]]></terms>
+                <min_order_total>10</min_order_total>
+                <max_order_total>1500</max_order_total>
+                <min_order_total_bb>50</min_order_total_bb>
+                <max_order_total_bb>1500</max_order_total_bb>
             </hypercharge_mobile_purchase_on_account_gtd>
             <hypercharge_wpf_purchase_on_account>
                 <active>0</active>                

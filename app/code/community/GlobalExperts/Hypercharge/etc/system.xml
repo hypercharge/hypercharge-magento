@@ -487,6 +487,38 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </terms>
+                        <min_order_total translate="label">
+                            <label>Minimum Order Total B2C</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>120</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </min_order_total>
+                        <max_order_total translate="label">
+                            <label>Maximum Order Total B2C</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>130</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </max_order_total>
+                        <min_order_total_bb translate="label">
+                            <label>Minimum Order Total B2B</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>140</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </min_order_total_bb>
+                        <max_order_total_bb translate="label">
+                            <label>Maximum Order Total B2B</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>150</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </max_order_total_bb>
                     </fields>
                 </hypercharge_mobile_purchase_on_account_gtd>
                 <hypercharge_mobile_gtd translate="label" module="bithypercharge">

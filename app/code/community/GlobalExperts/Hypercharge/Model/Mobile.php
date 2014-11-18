@@ -575,4 +575,60 @@ class GlobalExperts_Hypercharge_Model_Mobile extends Mage_Payment_Model_Method_A
         return $hypercharge_channels;
     }
 
+    public function isApplicableToQuote($quote, $checksBitMask)
+    {
+        if ($checksBitMask & self::CHECK_USE_FOR_COUNTRY) {
+            if (!$this->canUseForCountry($quote->getBillingAddress()->getCountry())) {
+                return false;
+            }
+        }
+        if ($checksBitMask & self::CHECK_USE_FOR_CURRENCY) {
+            if (!$this->canUseForCurrency($quote->getStore()->getBaseCurrencyCode())) {
+                return false;
+            }
+        }
+        if ($checksBitMask & self::CHECK_USE_CHECKOUT) {
+            if (!$this->canUseCheckout()) {
+                return false;
+            }
+        }
+        if ($checksBitMask & self::CHECK_USE_FOR_MULTISHIPPING) {
+            if (!$this->canUseForMultishipping()) {
+                return false;
+            }
+        }
+        if ($checksBitMask & self::CHECK_USE_INTERNAL) {
+            if (!$this->canUseInternal()) {
+                return false;
+            }
+        }
+        if ($checksBitMask & self::CHECK_ORDER_TOTAL_MIN_MAX) {
+            $total = $quote->getBaseGrandTotal();
+            $minTotal = $this->getConfigData('min_order_total');
+            $maxTotal = $this->getConfigData('max_order_total');
+
+            if ($quote->getBillingAddress()->getCompany()) {
+                $minTotal = $this->getConfigData('min_order_total_bb');
+                $maxTotal = $this->getConfigData('max_order_total_bb');
+            }
+
+            if (!empty($minTotal) && $total < $minTotal || !empty($maxTotal) && $total > $maxTotal) {
+                return false;
+            }
+        }
+        if ($checksBitMask & self::CHECK_RECURRING_PROFILES) {
+            if (!$this->canManageRecurringProfiles() && $quote->hasRecurringItems()) {
+                return false;
+            }
+        }
+        if ($checksBitMask & self::CHECK_ZERO_TOTAL) {
+            $total = $quote->getBaseSubtotal() + $quote->getShippingAddress()->getBaseShippingAmount();
+            if ($total < 0.0001 && $this->getCode() != 'free'
+                && !($this->canManageRecurringProfiles() && $quote->hasRecurringItems())
+            ) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

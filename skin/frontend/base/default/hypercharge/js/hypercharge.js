@@ -157,7 +157,7 @@ Hyper = Class.create({
             }
         }
 
-        json += "\"header_origin\" : \"" + this.headerOrigin + "\"," ;
+        //json += "\"header_origin\" : \"" + this.headerOrigin + "\"," ;
         json += "\"payment_method\" : \"" + this.paymentMethod + "\" } } ";
 
         var data = json.evalJSON(true);
@@ -175,6 +175,7 @@ Hyper = Class.create({
             data: data,
             dataType: "xml",
             headers: { 'origin': this.headerOrigin },
+			contentType: "application/text; charset=utf-8",
             success: function(result) {
                 var xml = jQuery(result);
                 var transactionStatus = xml.find("status").text();
