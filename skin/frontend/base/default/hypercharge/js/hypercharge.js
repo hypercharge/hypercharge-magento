@@ -180,7 +180,6 @@ Hyper = Class.create({
                 data: data,
                 dataType: "xml",
                 headers: {'origin': this.headerOrigin},
-                //contentType: "application/text; charset=utf-8",
                 success: function (result) {
                     var xml = jQuery(result);
                     var transactionStatus = xml.find("status").text();
@@ -212,21 +211,25 @@ Hyper = Class.create({
                 dataType: "xml",
                 headers: {'origin': this.headerOrigin},
                 contentType: "application/text; charset=utf-8",
-                success: function(result) {
+                success: function (result) {
                     var xml = jQuery(result);
                     var transactionStatus = xml.find("status").text();
 
                     if (transactionStatus == 'approved' || transactionStatus == 'pending_async') {
-                        alert("success");
+                        window.location.href = successUrl;
+                        return;
                     } else {
-                        alert("error in success");
+                        window.location.href = errorUrl;
+                        return;
                     }
                 },
-                error: function(jqXHR, tranStatus, errorThrown) {
+                error: function (jqXHR, tranStatus, errorThrown) {
                     if (jqXHR.status == 200) {
-                        alert("success in error");
+                        window.location.href = successUrl;
+                        return;
                     } else {
-                        alert("error in error");
+                        window.location.href = errorUrl;
+                        return;
                     }
                 }
             });
