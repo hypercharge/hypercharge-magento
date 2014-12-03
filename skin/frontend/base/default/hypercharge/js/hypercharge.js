@@ -103,6 +103,9 @@ Hyper = Class.create({
     setErrorUrl: function(url) {
         this.errorUrl = url;
     },
+    setMode: function(testMode) {
+        this.testMode = testMode;
+    },
     // This method checks if redirect url
     // is matching submit url of the payment method.
     // In case of url is the same, then it creates form with hidden fields
@@ -157,8 +160,9 @@ Hyper = Class.create({
             }
         }
 
-        //json += "\"header_origin\" : \"" + this.headerOrigin + "\"," ;
+        json += "\"header_origin\" : \"" + this.headerOrigin + "\"," ;
         json += "\"payment_method\" : \"" + this.paymentMethod + "\" } } ";
+
 
         var data = json.evalJSON(true);
         var successUrl = this.successUrl;
@@ -168,27 +172,28 @@ Hyper = Class.create({
         jQuery.support.cors = true;
 
         var container = jQuery('#review-buttons-container');
-        jQuery.ajax({
-            url: formUrl,
-            type: 'POST',
-            crossDomain: true,
-            data: data,
-            dataType: "xml",
-            headers: { 'origin': this.headerOrigin },
-			contentType: "application/text; charset=utf-8",
-            success: function(result) {
-                var xml = jQuery(result);
-                var transactionStatus = xml.find("status").text();
+        if (this.testMode) {
+            jQuery.ajax({
+                url: formUrl,
+                type: 'POST',
+                crossDomain: true,
+                data: data,
+                dataType: "xml",
+                headers: {'origin': this.headerOrigin},
+                //contentType: "application/text; charset=utf-8",
+                success: function (result) {
+                    var xml = jQuery(result);
+                    var transactionStatus = xml.find("status").text();
 
-                if (transactionStatus == 'approved' || transactionStatus == 'pending_async') {
-                    window.location.href = successUrl;
-                    return;
-                } else {
-                    window.location.href = errorUrl;
-                    return;
-                }
-            },
-            error: function(jqXHR, tranStatus, errorThrown) {
+                    if (transactionStatus == 'approved' || transactionStatus == 'pending_async') {
+                        window.location.href = successUrl;
+                        return;
+                    } else {
+                        window.location.href = errorUrl;
+                        return;
+                    }
+                },
+                error: function (jqXHR, tranStatus, errorThrown) {
                     if (jqXHR.status == 200) {
                         window.location.href = successUrl;
                         return;
@@ -196,8 +201,36 @@ Hyper = Class.create({
                         window.location.href = errorUrl;
                         return;
                     }
-            }
-        });
+                }
+            });
+        } else {
+            jQuery.ajax({
+                url: formUrl,
+                type: 'POST',
+                crossDomain: true,
+                data: data,
+                dataType: "xml",
+                headers: {'origin': this.headerOrigin},
+                contentType: "application/text; charset=utf-8",
+                success: function(result) {
+                    var xml = jQuery(result);
+                    var transactionStatus = xml.find("status").text();
+
+                    if (transactionStatus == 'approved' || transactionStatus == 'pending_async') {
+                        alert("success");
+                    } else {
+                        alert("error in success");
+                    }
+                },
+                error: function(jqXHR, tranStatus, errorThrown) {
+                    if (jqXHR.status == 200) {
+                        alert("success in error");
+                    } else {
+                        alert("error in error");
+                    }
+                }
+            });
+        }
     },            
     // Creates form and appending it body element
     createForm: function (formUrl) {        
