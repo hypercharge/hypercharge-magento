@@ -172,68 +172,37 @@ Hyper = Class.create({
         jQuery.support.cors = true;
 
         var container = jQuery('#review-buttons-container');
-        if (this.testMode) {
-            jQuery.ajax({
-                url: formUrl,
-                type: 'POST',
-                crossDomain: true,
-                data: data,
-                dataType: "xml",
-                headers: {'origin': this.headerOrigin},
-                success: function (result) {
-                    var xml = jQuery(result);
-                    var transactionStatus = xml.find("status").text();
 
-                    if (transactionStatus == 'approved' || transactionStatus == 'pending_async') {
-                        window.location.href = successUrl;
-                        return;
-                    } else {
-                        window.location.href = errorUrl;
-                        return;
-                    }
-                },
-                error: function (jqXHR, tranStatus, errorThrown) {
-                    if (jqXHR.status == 200) {
-                        window.location.href = successUrl;
-                        return;
-                    } else {
-                        window.location.href = errorUrl;
-                        return;
-                    }
-                }
-            });
-        } else {
-            jQuery.ajax({
-                url: formUrl,
-                type: 'POST',
-                crossDomain: true,
-                data: data,
-                dataType: "xml",
-                headers: {'origin': this.headerOrigin},
-                contentType: "application/text; charset=utf-8",
-                success: function (result) {
-                    var xml = jQuery(result);
-                    var transactionStatus = xml.find("status").text();
+        jQuery.ajax({
+            url: formUrl,
+            type: 'POST',
+            crossDomain: true,
+            data: data,
+            dataType: "xml",
+            headers: {'origin': this.headerOrigin},
+            //contentType: "application/text; charset=utf-8",
+            success: function (result) {
+                var xml = jQuery(result);
+                var transactionStatus = xml.find("status").text();
 
-                    if (transactionStatus == 'approved' || transactionStatus == 'pending_async') {
-                        window.location.href = successUrl;
-                        return;
-                    } else {
-                        window.location.href = errorUrl;
-                        return;
-                    }
-                },
-                error: function (jqXHR, tranStatus, errorThrown) {
-                    if (jqXHR.status == 200) {
-                        window.location.href = successUrl;
-                        return;
-                    } else {
-                        window.location.href = errorUrl;
-                        return;
-                    }
+                if (transactionStatus == 'approved' || transactionStatus == 'pending_async') {
+                    window.location.href = successUrl;
+                    return;
+                } else {
+                    window.location.href = errorUrl;
+                    return;
                 }
-            });
-        }
+            },
+            error: function (jqXHR, tranStatus, errorThrown) {
+                if (jqXHR.status == 200) {
+                    window.location.href = successUrl;
+                    return;
+                } else {
+                    window.location.href = errorUrl;
+                    return;
+                }
+            }
+        });
     },            
     // Creates form and appending it body element
     createForm: function (formUrl) {        
