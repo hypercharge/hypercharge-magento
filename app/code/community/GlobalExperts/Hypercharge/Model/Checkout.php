@@ -56,13 +56,13 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
 
         if (!$mode)
             Mage::helper('bithypercharge')->logger("\n" . str_repeat("*", 80)
-                    . "\n Capture transaction started");
+                . "\n Capture transaction started");
 
         if (!$hypercharge_channels) {
             if (!$mode)
                 Mage::helper('bithypercharge')->logger("\n Channels not configured");
             Mage::getSingleton('core/session')
-                    ->addError('Channels not configured');
+                ->addError('Channels not configured');
             $order->addStatusToHistory($order->getStatus(), 'Channels not configured');
             return $this;
         }
@@ -72,7 +72,7 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
             if (!$mode)
                 Mage::helper('bithypercharge')->logger("\n Currency channel does not exist");
             Mage::getSingleton('core/session')
-                    ->addError('Could not find currency channel in configuration');
+                ->addError('Could not find currency channel in configuration');
             $order->addStatusToHistory($order->getStatus(), 'Could not find currency channel in configuration');
             return $this;
         }
@@ -95,10 +95,10 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
         if (!$response = $gate->capture($paymentData)) {
             if (!$mode)
                 Mage::helper('bithypercharge')->logger("\n Capture payment failed. Capture data sent:\n"
-                        . print_r('<?xml version="1.0" encoding="utf-8"?>'
-                                . $gate->paramsXML($paymentData), true));
+                    . print_r('<?xml version="1.0" encoding="utf-8"?>'
+                        . $gate->paramsXML($paymentData), true));
             Mage::getSingleton('core/session')
-                    ->addError('Could not capture the payment');
+                ->addError('Could not capture the payment');
             $order->addStatusToHistory($order->getStatus(), 'Could not capture the payment');
             return $this;
         }
@@ -106,27 +106,27 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
         if ($response['status'] == 'error')
             if ($response['mode'] == 'live') {
                 Mage::getSingleton('core/session')
-                        ->addError($response['message']);
+                    ->addError($response['message']);
                 $order->addStatusToHistory($order->getStatus(), $response['message']);
                 return $this;
             } else {
                 Mage::helper('bithypercharge')->logger("\n Gateway returned error: "
-                        . $response['technical_message']);
+                    . $response['technical_message']);
                 Mage::helper('bithypercharge')->logger("\nCapture data sent:\n"
-                        . print_r('<?xml version="1.0" encoding="utf-8"?>'
-                                . $gate->paramsXML($paymentData), true));
+                    . print_r('<?xml version="1.0" encoding="utf-8"?>'
+                        . $gate->paramsXML($paymentData), true));
                 Mage::getSingleton('core/session')
-                        ->addError('Gateway returned error: '
-                                . $response['technical_message']);
-                $order->addStatusToHistory($order->getStatus(), 'Gateway returned error: '
+                    ->addError('Gateway returned error: '
                         . $response['technical_message']);
+                $order->addStatusToHistory($order->getStatus(), 'Gateway returned error: '
+                    . $response['technical_message']);
                 return $this;
             }
         // Everything is ok, wrap this up
         $payment->setPreparedMessage('Payment captured')
-                ->setTransactionId($response['unique_id'])
-                ->setIsTransactionClosed(0)
-                ->setIsTransactionApproved(true);
+            ->setTransactionId($response['unique_id'])
+            ->setIsTransactionClosed(0)
+            ->setIsTransactionApproved(true);
         if (!$order->getEmailSent())
             $order->sendNewOrderEmail();
         $order->save();
@@ -148,13 +148,13 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
 
         if (!$mode)
             Mage::helper('bithypercharge')->logger("\n" . str_repeat("*", 80)
-                    . "\n Void transaction started");
+                . "\n Void transaction started");
 
         if (!$hypercharge_channels) {
             if (!$mode)
                 Mage::helper('bithypercharge')->logger("\n Channels not configured");
             Mage::getSingleton('core/session')
-                    ->addError('Channels not configured');
+                ->addError('Channels not configured');
             $order->addStatusToHistory($order->getStatus(), 'Channels not configured');
             return $this;
         }
@@ -164,7 +164,7 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
             if (!$mode)
                 Mage::helper('bithypercharge')->logger("\n Currency channel does not exist");
             Mage::getSingleton('core/session')
-                    ->addError('Could not find currency channel in configuration');
+                ->addError('Could not find currency channel in configuration');
             $order->addStatusToHistory($order->getStatus(), 'Could not find currency channel in configuration');
             return $this;
         }
@@ -185,10 +185,10 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
         if (!$response = $gate->void($paymentData)) {
             if (!$mode)
                 Mage::helper('bithypercharge')->logger("\n Voiding payment failed. Voiding data sent:\n"
-                        . print_r('<?xml version="1.0" encoding="utf-8"?>'
-                                . $gate->paramsXML($paymentData), true));
+                    . print_r('<?xml version="1.0" encoding="utf-8"?>'
+                        . $gate->paramsXML($paymentData), true));
             Mage::getSingleton('core/session')
-                    ->addError('Could not void the payment');
+                ->addError('Could not void the payment');
             $order->addStatusToHistory($order->getStatus(), 'Could not void the payment');
             return $this;
         }
@@ -196,22 +196,22 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
         if ($response['status'] == 'error')
             if ($response['mode'] == 'live') {
                 Mage::getSingleton('core/session')
-                        ->addError($response['message']);
+                    ->addError($response['message']);
                 $order->addStatusToHistory($order->getStatus(), $response['message']);
                 return $this;
             } else {
                 Mage::helper('bithypercharge')->logger("\n Gateway returned error: "
-                        . $response['technical_message']);
+                    . $response['technical_message']);
                 Mage::getSingleton('core/session')
-                        ->addError('Gateway returned error: '
-                                . $response['technical_message']);
-                $order->addStatusToHistory($order->getStatus(), 'Gateway returned error: '
+                    ->addError('Gateway returned error: '
                         . $response['technical_message']);
+                $order->addStatusToHistory($order->getStatus(), 'Gateway returned error: '
+                    . $response['technical_message']);
                 return $this;
             }
         // Everything is ok, wrap this up
         $payment->setPreparedMessage('Transaction voided')
-                ->registerVoidNotification();
+            ->registerVoidNotification();
         $order->save();
         return $this;
     }
@@ -219,7 +219,7 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
     public function cancel(Varien_Object $payment) {
         $this->void($payment);
         $payment->getOrder()
-                ->registerCancellation('Order cancelled', false)->save();
+            ->registerCancellation('Order cancelled', false)->save();
         return $this;
     }
 
@@ -238,13 +238,13 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
 
         if (!$mode)
             Mage::helper('bithypercharge')->logger("\n" . str_repeat("*", 80)
-                    . "\n Refund transaction started");
+                . "\n Refund transaction started");
 
         if (!$hypercharge_channels) {
             if (!$mode)
                 Mage::helper('bithypercharge')->logger("\n Channels not configured");
             Mage::getSingleton('core/session')
-                    ->addError('Channels not configured');
+                ->addError('Channels not configured');
             $order->addStatusToHistory($order->getStatus(), 'Channels not configured');
             return $this;
         }
@@ -254,7 +254,7 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
             if (!$mode)
                 Mage::helper('bithypercharge')->logger("\n Currency channel does not exist");
             Mage::getSingleton('core/session')
-                    ->addError('Could not find currency channel in configuration');
+                ->addError('Could not find currency channel in configuration');
             $order->addStatusToHistory($order->getStatus(), 'Could not find currency channel in configuration');
             return $this;
         }
@@ -277,10 +277,10 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
         if (!$response = $gate->refund($paymentData)) {
             if (!$mode)
                 Mage::helper('bithypercharge')->logger("\n Refunding payment failed. Refund data sent:\n"
-                        . print_r('<?xml version="1.0" encoding="utf-8"?>'
-                                . $gate->paramsXML($paymentData), true));
+                    . print_r('<?xml version="1.0" encoding="utf-8"?>'
+                        . $gate->paramsXML($paymentData), true));
             Mage::getSingleton('core/session')
-                    ->addError('Could not refund the payment');
+                ->addError('Could not refund the payment');
             $order->addStatusToHistory($order->getStatus(), 'Could not refund the payment');
             return $this;
         }
@@ -288,32 +288,32 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
         if ($response['status'] == 'error')
             if ($response['mode'] == 'live') {
                 Mage::getSingleton('core/session')
-                        ->addError($response['message']);
+                    ->addError($response['message']);
                 $order->addStatusToHistory($order->getStatus(), $response['message']);
                 return $this;
             } else {
                 Mage::helper('bithypercharge')->logger("\n Gateway returned error: "
-                        . $response['technical_message']);
+                    . $response['technical_message']);
                 Mage::getSingleton('core/session')
-                        ->addError('Gateway returned error: '
-                                . $response['technical_message']);
-                $order->addStatusToHistory($order->getStatus(), 'Gateway returned error: '
+                    ->addError('Gateway returned error: '
                         . $response['technical_message']);
+                $order->addStatusToHistory($order->getStatus(), 'Gateway returned error: '
+                    . $response['technical_message']);
                 return $this;
             }
         // Everything is ok, wrap this up
         $payment->setPreparedMessage('Payment was refunded')
-                ->setTransactionId($response['unique_id'])
-                ->setIsTransactionClosed(1)
-                ->registerRefundNotification(
-                        -1 * ($response['amount'] / 100));
+            ->setTransactionId($response['unique_id'])
+            ->setIsTransactionClosed(1)
+            ->registerRefundNotification(
+                -1 * ($response['amount'] / 100));
         $order->save();
         return $this;
     }
 
     /**
      * Return the values from the channels config
-     * @return array 
+     * @return array
      */
     public function getConfigChannels() {
         $path = 'payment/hypercharge_mobile/channels';
@@ -339,7 +339,7 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
 
     /**
      * Return the values from the channels config
-     * @return array 
+     * @return array
      */
     public function getAllConfigChannels() {
         $path = 'payment/hypercharge_mobile/channels';
@@ -366,7 +366,7 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
 
     /**
      * Returns the redirect URL from a wpf creation action
-     * @return string 
+     * @return string
      */
     public function getRedirectUrl() {
         $order = $this->getQuote();
@@ -413,7 +413,7 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
         $currency = $order->getBaseCurrencyCode();
         if (!array_key_exists($currency, $hypercharge_channels)) {
             Mage::throwException(
-                    'The merchant doesn\'t accept payments for this currency');
+                'The merchant doesn\'t accept payments for this currency');
             return;
         }
 
@@ -436,20 +436,20 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
             'return_failure_url' => Mage::getUrl('bit-hypercharge/wpfredirect/failure', array('_secure' => true)),
             'return_cancel_url' => Mage::getUrl('bit-hypercharge/wpfredirect/cancel', array('_secure' => true)),
             'billing_address' => array(
-                'first_name' => utf8_decode($billing->getFirstname()),
-                'last_name' => utf8_decode($billing->getLastname()),
-                'address1' => utf8_decode(trim(str_replace("\n", ' ', trim(implode(' ', $billing->getStreet()))))),
-                'city' => utf8_decode($billing->getCity()),
-                'country' => utf8_decode($billing->getCountryId()),
-                'zip_code' => utf8_decode($billing->getData('postcode')),
+                'first_name' => $billing->getFirstname(),
+                'last_name' => $billing->getLastname(),
+                'address1' => trim(str_replace("\n", ' ', trim(implode(' ', $billing->getStreet())))),
+                'city' => $billing->getCity(),
+                'country' => $billing->getCountryId(),
+                'zip_code' => $billing->getData('postcode'),
             ),
             'shipping_address' => array(
-                'first_name' => utf8_decode($billing->getFirstname()),
-                'last_name' => utf8_decode($billing->getLastname()),
-                'address1' => utf8_decode(trim(str_replace("\n", ' ', trim(implode(' ', $billing->getStreet()))))),
-                'city' => utf8_decode($billing->getCity()),
-                'country' => utf8_decode($billing->getCountryId()),
-                'zip_code' => utf8_decode($billing->getData('postcode')),
+                'first_name' => $billing->getFirstname(),
+                'last_name' => $billing->getLastname(),
+                'address1' => trim(str_replace("\n", ' ', trim(implode(' ', $billing->getStreet())))),
+                'city' => $billing->getCity(),
+                'country' => $billing->getCountryId(),
+                'zip_code' => $billing->getData('postcode'),
             ),
         );
 
@@ -467,9 +467,9 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
 
         // Log some information        
         Mage::helper('bithypercharge')->logger("WPF initiated:\n"
-                . "Mode:" . print_r($mode, true)
-                . "\nRequest string:\n"
-                . var_export($paymentData, true));
+            . "Mode:" . print_r($mode, true)
+            . "\nRequest string:\n"
+            . var_export($paymentData, true));
 
 
 
@@ -543,14 +543,14 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
 
     /**
      * Returns the order object
-     * @return Mage_Sales_Model_Order 
+     * @return Mage_Sales_Model_Order
      */
     public function getQuote() {
         if (!$this->_order) {
             $orderIncrementId = Mage::getModel('checkout/session')
-                    ->getLastRealOrderId();
+                ->getLastRealOrderId();
             $this->_order = Mage::getModel('sales/order')
-                    ->loadByIncrementId($orderIncrementId);
+                ->loadByIncrementId($orderIncrementId);
         }
 
         return $this->_order;
@@ -567,7 +567,7 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
     /**
      * Returns the termination $xml or null on failure and updates the order data
      * @param array $post The $_POST string received in the WPF notification
-     * @return mixed 
+     * @return mixed
      */
     public function wpfResponse($post) {
         Mage::log("response from hyper", null, "hyper-notif.log");
@@ -575,7 +575,7 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
         $hypercharge_channels = $this->getConfigChannels();
         $timestamp = date('Y-m-d H:i:s', time() + 10800);
         Mage::helper('bithypercharge')->logger("\n" . str_repeat('*', 80) . "\n" . $timestamp
-                . ' POST notification received');
+            . ' POST notification received');
         Mage::helper('bithypercharge')->logger("\n" . ' Post data: ' . print_r($post, true));
 
         // Check for existence of data
@@ -605,8 +605,8 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
             $order = Mage::getModel('sales/order')->loadByIncrementId($order_id);
         } catch (Exception $e) {
             Mage::helper('bithypercharge')->logger("\n" . $timestamp
-                    . ' Transaction could not be found in database - '
-                    . $wpf_trx_id . '. Error: ' . $e->getMessage());
+                . ' Transaction could not be found in database - '
+                . $wpf_trx_id . '. Error: ' . $e->getMessage());
             return $xml;
         }
         $paymentMethod = get_class($order->getPayment()->getMethodInstance());
@@ -622,16 +622,16 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
             // cancel order
             if ($post['payment_status'] == 'timeout') {
                 $order->getPayment()
-                        ->setAdditionalInformation(
-                                'Transaction Status', 'timeout')
-                        ->setIsTransactionClosed(0);
+                    ->setAdditionalInformation(
+                        'Transaction Status', 'timeout')
+                    ->setIsTransactionClosed(0);
                 $order->registerCancellation('Payment timeout.', false);
                 $order->save();
             } else {
                 $order->getPayment()
-                        ->setAdditionalInformation(
-                                'Transaction Status', 'error')
-                        ->setIsTransactionClosed(0);
+                    ->setAdditionalInformation(
+                        'Transaction Status', 'error')
+                    ->setIsTransactionClosed(0);
                 $order->registerCancellation('Payment error.', false);
                 $order->save();
             }
@@ -667,8 +667,8 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
         if (!$pass && function_exists('hash')) { // the signature doesn't match 
             if (!$mode)
                 Mage::helper('bithypercharge')->logger("\n" . $timestamp . ' Invalid signature. Signature: '
-                        . $signature . ' WPF id: ' . $wpf_id . ' Password: '
-                        . $channel['pass']);
+                    . $signature . ' WPF id: ' . $wpf_id . ' Password: '
+                    . $channel['pass']);
 
             return $xml;
         }
@@ -707,7 +707,7 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
         //Get the transaction type
         $transaction = null;
         if (!array_key_exists(0, $response['payment_transaction']))
-        //we have a single transaction in response
+            //we have a single transaction in response
             $transaction = $response['payment_transaction'];
         else
             foreach ($response['payment_transaction'] as $p)
@@ -718,7 +718,7 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
         if (!$transaction) {
             if (!$mode)
                 Mage::helper('bithypercharge')->logger("\n" . $timestamp
-                        . ' Transaction type could not be determined ');
+                    . ' Transaction type could not be determined ');
             return $xml;
         }
 
@@ -739,9 +739,9 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
 
         // Set some extra info
         $order->getPayment()
-                ->setAdditionalInformation('Last Transaction ID', $transaction['unique_id'])
-                ->setAdditionalInformation('Transaction Type', $transaction['transaction_type'])
-                ->setAdditionalInformation('Transaction Status', $response['status']);
+            ->setAdditionalInformation('Last Transaction ID', $transaction['unique_id'])
+            ->setAdditionalInformation('Transaction Type', $transaction['transaction_type'])
+            ->setAdditionalInformation('Transaction Status', $response['status']);
         /*if ($wireId) {
             $order->getPayment()->setAdditionalInformation('Wire Reference ID', $wireId);
         }*/
@@ -751,16 +751,16 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
                 case 'chargeback_reversed':
                     if ($is_authorize) {
                         $order->getPayment()
-                                ->setPreparedMessage('Payment authorized.')
-                                ->setTransactionId($transaction['unique_id'])
-                                ->setAdditionalInformation('Last Transaction ID', $transaction['unique_id'])
-                                ->setAdditionalInformation('Last Transaction Type', $transaction['transaction_type'])
-                                ->setAdditionalInformation(
-                                        'Last Transaction Status', $response['status'])
-                                ->setIsTransactionClosed(0)
-                                ->registerAuthorizationNotification(
-                                        $transaction['amount'] / 100)
-                                ->setIsTransactionApproved(true);
+                            ->setPreparedMessage('Payment authorized.')
+                            ->setTransactionId($transaction['unique_id'])
+                            ->setAdditionalInformation('Last Transaction ID', $transaction['unique_id'])
+                            ->setAdditionalInformation('Last Transaction Type', $transaction['transaction_type'])
+                            ->setAdditionalInformation(
+                                'Last Transaction Status', $response['status'])
+                            ->setIsTransactionClosed(0)
+                            ->registerAuthorizationNotification(
+                                $transaction['amount'] / 100)
+                            ->setIsTransactionApproved(true);
                         if (!$order->getEmailSent())
                             $order->sendNewOrderEmail();
                         $order->save();
@@ -770,11 +770,11 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
                         $order->getPayment()->setAdditionalInformation('Wire Reference ID approved', $wireId);
                     }
                     $order->getPayment()
-                            ->setTransactionId($transaction['unique_id'])
-                            ->setPreparedMessage('Transaction successful.')
-                            ->setIsTransactionClosed(0)
-                            ->registerCaptureNotification(
-                                    $transaction['amount'] / 100);
+                        ->setTransactionId($transaction['unique_id'])
+                        ->setPreparedMessage('Transaction successful.')
+                        ->setIsTransactionClosed(0)
+                        ->registerCaptureNotification(
+                            $transaction['amount'] / 100);
                     if (!$order->getEmailSent())
                         $order->sendNewOrderEmail();
                     $order->save();
@@ -783,25 +783,25 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
                     break;
                 case 'declined':
                     $order->registerCancellation('Payment was declined.', false)
-                            ->save();
+                        ->save();
                     break;
                 case 'chargebacked':
                     break;
                 case 'pre_arbitrated':
                 case 'refunded':
                     $order->getPayment()
-                            ->setPreparedMessage('Payment was refunded.')
-                            ->setTransactionId($transaction['unique_id'])
-                            ->setIsTransactionClosed(
-                                    $response['status'] == 'refunded' ? 1 : 0)
-                            ->registerRefundNotification(
-                                    -1 * ($transaction['amount'] / 100));
+                        ->setPreparedMessage('Payment was refunded.')
+                        ->setTransactionId($transaction['unique_id'])
+                        ->setIsTransactionClosed(
+                            $response['status'] == 'refunded' ? 1 : 0)
+                        ->registerRefundNotification(
+                            -1 * ($transaction['amount'] / 100));
                     $order->save();
                     break;
                 case 'voided':
                     $order->getPayment()
-                            ->setPreparedMessage('Transaction voided.')
-                            ->registerVoidNotification();
+                        ->setPreparedMessage('Transaction voided.')
+                        ->registerVoidNotification();
                     $order->save();
                     break;
                 case 'pending':
@@ -810,9 +810,9 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
                         $order->getPayment()->setAdditionalInformation('Wire Reference ID pending', $wireId);
                     }
                     $order->getPayment()
-                            ->setPreparedMessage('Payment not complete yet.')
-                            ->setTransactionId($transaction['unique_id'])
-                            ->setIsTransactionClosed(0);
+                        ->setPreparedMessage('Payment not complete yet.')
+                        ->setTransactionId($transaction['unique_id'])
+                        ->setIsTransactionClosed(0);
 //                            ->registerPaymentReviewAction(
 //                                    Mage_Sales_Model_Order_Payment
 //                                    ::REVIEW_ACTION_UPDATE, false);
@@ -825,14 +825,14 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
         } catch (Exception $e) {
             if (!$mode)
                 Mage::helper('bithypercharge')->logger("\n" . $timestamp . ' Could not update order status: '
-                        . $e->getMessage());
+                    . $e->getMessage());
             return $xml;
         }
 
         if (!$mode)
             Mage::helper('bithypercharge')->logger("\n" . $timestamp . ' Order status updated to '
-                    . $status . ' - transaction type: '
-                    . $transaction['transaction_type']);
+                . $status . ' - transaction type: '
+                . $transaction['transaction_type']);
 
         //Output the XML so that the gateway knows that we are done
         if ($is_authorize && $status == Mage_Sales_Model_Order::STATE_PENDING_PAYMENT || !$is_authorize && $status != Mage_Sales_Model_Order::STATE_PENDING_PAYMENT) {
