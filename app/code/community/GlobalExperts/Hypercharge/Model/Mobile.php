@@ -131,7 +131,6 @@ class GlobalExperts_Hypercharge_Model_Mobile extends Mage_Payment_Model_Method_A
         , 'transaction_id' => $order->getRealOrderId() //uniqid(time())
         , 'usage' => Mage::app()->getStore()->getName() . ' order authorization'
         , 'customer_email' => $order->getCustomerEmail()
-        , 'customer_phone' => $billing->getTelephone()
         , 'notification_url' => Mage::getUrl('bit-hypercharge/notification/response', array('_secure' => true))
         , 'billing_address' => array(
                 'first_name' => $billing->getFirstname()
@@ -142,6 +141,10 @@ class GlobalExperts_Hypercharge_Model_Mobile extends Mage_Payment_Model_Method_A
             , 'country' => $billing->getCountry()
             )
         );
+
+        if ($billing->getTelephone()) {
+            $paymentData['customer_phone'] = $billing->getTelephone();
+        }
 
         $transactionType = $modelPayment->_jsonTransactionType;
         if (isset($transactionType) && $transactionType != '') {

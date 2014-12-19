@@ -430,7 +430,6 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
             'currency' => $currency,
             'editable_by_user' => $editableByUser,
             'customer_email' => $order->getCustomerEmail(),
-            'customer_phone' => $billing->getTelephone(),
             'notification_url' => Mage::getUrl('bit-hypercharge/wpfnotification/wpf', array('_secure' => true)),
             'return_success_url' => Mage::getUrl('bit-hypercharge/wpfredirect/success', array('_secure' => true)),
             'return_failure_url' => Mage::getUrl('bit-hypercharge/wpfredirect/failure', array('_secure' => true)),
@@ -452,6 +451,10 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
                 'zip_code' => $billing->getData('postcode'),
             ),
         );
+
+        if ($billing->getTelephone()) {
+            $paymentData['customer_phone'] = $billing->getTelephone();
+        }
 
         $paymentData['transaction_types'] = array(
             'transaction_type' => $modelPayment->getTransactionType()
