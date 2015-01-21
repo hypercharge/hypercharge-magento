@@ -34,3 +34,65 @@ The WPF payment methods redirect user to Hypercharge servers were the payment da
 
 For each payment method you can change the title (**Title**), enable/disable it (**Enabled**), set the payment type on live or test mode (**Test Mode**), set the sort order for frontend payment step list (**Sort order**) and select the billing countries for which the payment method will be available (**Payment from Applicable Countries** and **Payment from Specific Countries**).
 For Credit Card payment method you can also select the CC types which will be available (**Credit Card Types**). For all WPF payment methods you can chose to load the Hypercharge payment form – from Hypercharge servers – in an iFrame on your Magento web-store (**Load in iFrame**), instead of redirecting the customer to Hypercharge website; and you can enable the address step for WPF payments (**Show address step on Hypercharge**) – the billing address from Magento will be send automatically in both cases.
+
+---------
+3. Testing and configuration in DEMO/LIVE
+---------
+
+3.1. For testing of the procces you need to open four new tabs.
+   First tab: online webstore - http://www.your-domain.com/ - log in or create new account if you don't have one or checkout as guest
+   Second tab: admin panel from the webstore - http://www.your-domain.com/admin - login data (User Name: yourusername Password: yourpassword);
+   Third tab: payment register interface - https://sankyudemo.hypercharge.net - login data ( User: yoursankyuusername Password: yoursankyupassword);
+   Finaly the fourth tab, will contain your email account, the one which you registered on the webstore, where you will get notifications.
+
+3.2. Channels configuration
+   When you make the contract with hypercharge you will be granted with a test account and a live account (sankyu).
+   Login into sankyu and go to: Configuration -> Channels, you will have here a list of all channels available.
+   In magento you will need to fill in all your channels like this: CURRENCY|LOGIN|PASSWORD|CHANNEL (one channel per row)
+
+
+3.3. To see the payment method go under System > Configurations > Payment Methods.
+   Directly under Hypercharge Channels Configurations tab you should see 15 Hypercharge payment types.
+   Some of the payment methods are using Mobile API, other payment methods are using the WPF API.
+   The methods that are using Mobile API are:
+    - Credit Card
+    - Direct Debit
+    - SEPA
+    - Purchase on Account
+    - GTD Purchase on Account-Payolutin
+    - GTD Sepa Debit Sale
+   As you can see for the moment there are 6 methods that are using Mobile API.
+   The others 9 methods are using the WPF API.
+   Also, you will be able to see the entire 15 methods, when a new purchase is made. (of course if all are enabled, you have channels for all)
+   * Ideal Payment Methos is set by default to specific country Nederland (so it will not appear on frontend if your billing address does not have Nederland)
+   * by default, all payment methods are set on testmode
+   * all WPF payment methods can loaded in an IFRAME or with redirect
+   * please check your PCI Compliance to see if you can load your payment methods in an IFRAME or you need to redirect them to the payment GATEWAY, for this you need to change the "Load in IFRAME" select - visible in all WPF Payments
+
+3.4. To test a payment method, you have to complete few steps:
+   - go to the webstore, log in (or checkout as guest), and add something to cart;
+   - go to the cart, click "proceed to checkout" to finalize the purchase;
+   - set an address and select this address for shipping at shipping step;
+   - when the user is informed about shipping rate, click continue;
+   - when "payment option" are displayed select the desired method;
+   Further, each payment method, has its own steps.
+
+   3.4.1. Credit Card - data that you can use in test mode:
+                      Name on Card: random first name and last name;
+                      Credit Card Type: select the desired type from dropdown
+                      4200000000000000 Visa successful transaction
+                      4111111111111111 Visa transaction declined
+                      5555555555554444 Master Card successful transaction
+                      5105105105105100 Master Card transaction declined
+                      For expiration date just set a future date and for CVC just enter 3 random digits.
+       Click "Continue", review the order, then click "Place Order".
+
+   For a successful transaction the following four results are needed:
+   - On webstore page a success page to be displayed, after placing the order (![screenshot_1](https://github.com/hypercharge/hypercharge-magento/blob/master/screenshot_1.png));
+   - in Magento admin > Sales > Orders, the order is registered with status "Pending Payment",
+                       and after some time, the order is set to "Processing" (![screenshot_2](https://github.com/hypercharge/hypercharge-magento/blob/master/screenshot_2.png));
+   - in Hypercharge > Payments: order is registered with status "Approved" (![screenshot_3](https://github.com/hypercharge/hypercharge-magento/blob/master/screenshot_3.png));
+   - when the order status is changed from Pending_Payment to Processing a confirmation email is received (![screenshot_4](https://github.com/hypercharge/hypercharge-magento/blob/master/screenshot_4.png)).
+
+   Also, if you click on (i) info - the last icon on the transaction row, another page with the transaction details,
+   will be displayed. Here you will see the transaction details as: payment method, type and mode (![screenshot_5](https://github.com/hypercharge/hypercharge-magento/blob/master/screenshot_5.png)).
