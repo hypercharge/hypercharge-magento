@@ -363,8 +363,15 @@ class GlobalExperts_Hypercharge_Model_Mobile extends Mage_Payment_Model_Method_A
             ->setAdditionalInformation('Transaction Status', $response->status);
 
         if ($wire_reference_id) {
-            $order->getPayment()->setAdditionalInformation('Wire Reference ID', $wire_reference_id);
+            if ($order->getPayment()->getMethod() == 'hypercharge_mobile_purchase_on_account_gtd') {
+                $order->getPayment()->setAdditionalInformation('Verwendungszweck', $wire_reference_id);
+            }
+
+            if ($order->getPayment()->getMethod() != 'hypercharge_mobile_purchase_on_account_gtd') {
+                $order->getPayment()->setAdditionalInformation('Wire Reference ID', $wire_reference_id);
+            }
         }
+
         try {
             switch ($response->status) {
                 case 'approved':

@@ -81,6 +81,11 @@ class GlobalExperts_Hypercharge_RedirectController extends Mage_Core_Controller_
      */
 
     public function failureAction() {
+        $order = Mage::getModel("sales/order")->loadByIncrementId(Mage::getSingleton('checkout/session')->getLastRealOrderId());
+        if ($order && $order->getPayment()->getMethod() == 'hypercharge_mobile_purchase_on_account_gtd') {
+            Mage::getSingleton('checkout/session')->setErrorMessage("<br/>Diese Zahlung konnte nicht durchgeführt werden. Dies kann unterschiedliche Gründe haben, wie etwa fehlerhafte Eingabedaten, eine unbekannte Adresse, oder ein vorübergehendes technisches Problem.<br/>Bitte überprüfen Sie die angegebenen Daten, oder wählen Sie ein anderes Zahlungsmittel.<br/><br/>");
+        }
+
         $this->_redirect('checkout/onepage/failure');
     }
 
@@ -89,6 +94,8 @@ class GlobalExperts_Hypercharge_RedirectController extends Mage_Core_Controller_
      */
 
     public function cancelAction() {
+
+
         Mage::getSingleton('core/session')->unsHyperRedirectUrl();
         Mage::getSingleton('core/session')->unsHyperReviewRedirect();
         $this->_redirect('checkout/onepage/failure');

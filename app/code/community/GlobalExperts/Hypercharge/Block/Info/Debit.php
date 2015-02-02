@@ -63,6 +63,11 @@ class GlobalExperts_Hypercharge_Block_Info_Debit extends Mage_Payment_Block_Info
                 Mage::helper('bithypercharge')->__('Wire Reference ID') => $this->htmlEscape($payment->getAdditionalInformation('Wire Reference ID'))
             ));
         }
+        if ($this->htmlEscape($payment->getAdditionalInformation('Verwendungszweck'))) {
+            $transport->addData(array(
+                Mage::helper('bithypercharge')->__('Verwendungszweck') => $this->htmlEscape($payment->getAdditionalInformation('Verwendungszweck'))
+            ));
+        }
 
         if ($this->htmlEscape($payment->getAdditionalInformation('transaction_id')) && $payment->getMethodInstance()->getCode() == Mage::getModel("bithypercharge/sepa")->getCode()) {
 

@@ -55,6 +55,12 @@ class GlobalExperts_Hypercharge_Block_Info_Cc extends Mage_Payment_Block_Info {
                 Mage::helper('bithypercharge')->__('Wire Reference ID') => $this->htmlEscape($payment->getAdditionalInformation('Wire Reference ID'))
             ));
         }
+        if ($this->htmlEscape($payment->getAdditionalInformation('Verwendungszweck'))) {
+            $transport->addData(array(
+                Mage::helper('bithypercharge')->__('Verwendungszweck') => $this->htmlEscape($payment->getAdditionalInformation('Verwendungszweck'))
+            ));
+        }
+
         return $transport;
     }
     
