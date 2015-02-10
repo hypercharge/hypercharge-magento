@@ -744,7 +744,9 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
         $order->getPayment()
             ->setAdditionalInformation('Last Transaction ID', $transaction['unique_id'])
             ->setAdditionalInformation('Transaction Type', $transaction['transaction_type'])
+            ->setAdditionalInformation('Channel Token', $trx_channel)
             ->setAdditionalInformation('Transaction Status', $response['status']);
+
         /*if ($wireId) {
             $order->getPayment()->setAdditionalInformation('Wire Reference ID', $wireId);
         }*/
@@ -758,6 +760,7 @@ class GlobalExperts_Hypercharge_Model_Checkout extends Mage_Payment_Model_Method
                             ->setTransactionId($transaction['unique_id'])
                             ->setAdditionalInformation('Last Transaction ID', $transaction['unique_id'])
                             ->setAdditionalInformation('Last Transaction Type', $transaction['transaction_type'])
+                            ->setAdditionalInformation('Channel Token', $trx_channel)
                             ->setAdditionalInformation(
                                 'Last Transaction Status', $response['status'])
                             ->setIsTransactionClosed(0)

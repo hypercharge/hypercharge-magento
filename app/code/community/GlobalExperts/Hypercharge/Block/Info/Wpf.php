@@ -68,7 +68,11 @@ class GlobalExperts_Hypercharge_Block_Info_Wpf extends Mage_Payment_Block_Info
                 Mage::helper('bithypercharge')->__('Verwendungszweck') => $this->htmlEscape($payment->getAdditionalInformation('Verwendungszweck'))
             ));
         }
-
+        if (Mage::getDesign()->getArea() == 'adminhtml' && $this->htmlEscape($payment->getAdditionalInformation('Channel Token'))) {
+            $transport->addData(array(
+                Mage::helper('bithypercharge')->__('Channel Token') => $this->htmlEscape($payment->getAdditionalInformation('Channel Token'))
+            ));
+        }
         return $transport;
     }
 }

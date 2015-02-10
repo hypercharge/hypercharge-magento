@@ -360,6 +360,7 @@ class GlobalExperts_Hypercharge_Model_Mobile extends Mage_Payment_Model_Method_A
         $order->getPayment()
             ->setAdditionalInformation('Last Transaction ID', $transactionId)
             ->setAdditionalInformation('Transaction Type', $transactionType)
+            ->setAdditionalInformation('Channel Token', $trx_channel)
             ->setAdditionalInformation('Transaction Status', $response->status);
 
         if ($wire_reference_id) {

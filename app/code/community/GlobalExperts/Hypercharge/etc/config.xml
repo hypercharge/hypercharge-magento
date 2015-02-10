@@ -27,33 +27,33 @@
 -->
 <config>
     <modules>
-        <GlobalExperts_Hypercharge>            
-            <version>1.1.17</version>
+        <GlobalExperts_Hypercharge>
+            <version>1.1.18</version>
         </GlobalExperts_Hypercharge>
     </modules>
- 
-    <global>        
+
+    <global>
         <blocks>
             <bithypercharge>
                 <class>GlobalExperts_Hypercharge_Block</class>
             </bithypercharge>
-        </blocks>        
+        </blocks>
         <helpers>
             <bithypercharge>
                 <class>GlobalExperts_Hypercharge_Helper</class>
             </bithypercharge>
-        </helpers>         
+        </helpers>
         <models>
             <bithypercharge>
                 <class>GlobalExperts_Hypercharge_Model</class>
             </bithypercharge>
-        </models>         
-        <resources> 
-            <bithypercharge_setup>                
-                <setup>                    
+        </models>
+        <resources>
+            <bithypercharge_setup>
+                <setup>
                     <module>GlobalExperts_Hypercharge</module>
-                </setup>                
-                <connection>                    
+                </setup>
+                <connection>
                     <use>core_setup</use>
                 </connection>
             </bithypercharge_setup>
@@ -69,7 +69,7 @@
             </bithypercharge_read>
         </resources>
     </global>
-    
+
     <frontend>
         <secure_url>
             <bit-hypercharge_redirect>/bit-hypercharge/redirect/</bit-hypercharge_redirect>
@@ -82,7 +82,7 @@
                 </bithypercharge>
             </updates>
         </layout>
-        <routers>            
+        <routers>
             <bithypercharge>
                 <use>standard</use>
                 <args>
@@ -90,7 +90,7 @@
                     <frontName>bit-hypercharge</frontName>
                 </args>
             </bithypercharge>
-        </routers> 
+        </routers>
         <translate>
             <modules>
                 <GlobalExperts_Hypercharge>
@@ -101,7 +101,7 @@
             </modules>
         </translate>
     </frontend>
-    
+
     <adminhtml>
         <translate>
             <modules>
@@ -113,13 +113,13 @@
             </modules>
         </translate>
     </adminhtml>
- 
+
     <default>
-        <payment> 
+        <payment>
             <hypercharge_mobile>
-                <active>0</active>                
-                <model>bithypercharge/mobile</model>                
-                <order_status>processing</order_status>                
+                <active>0</active>
+                <model>bithypercharge/mobile</model>
+                <order_status>processing</order_status>
             </hypercharge_mobile>
             <hypercharge_wpf_cc>
                 <active>0</active>
@@ -141,8 +141,8 @@
                 <test>1</test>
             </hypercharge_mobile_cc>
             <hypercharge_mobile_debit>
-                <active>0</active>                
-                <model>bithypercharge/debit</model>                
+                <active>0</active>
+                <model>bithypercharge/debit</model>
                 <order_status>processing</order_status>
                 <title>Debit Sale</title>
                 <payment_action>authorize_capture</payment_action>
@@ -168,8 +168,8 @@
                 <test>1</test>
             </hypercharge_mobile_gtd>
             <hypercharge_mobile_purchase_on_account>
-                <active>0</active>                
-                <model>bithypercharge/mobilepurchaseaccount</model>                
+                <active>0</active>
+                <model>bithypercharge/mobilepurchaseaccount</model>
                 <order_status>processing</order_status>
                 <title>Purchase On Account</title>
                 <payment_action>authorize_capture</payment_action>
@@ -192,63 +192,63 @@
                 <max_order_total_bb>1500</max_order_total_bb>
             </hypercharge_mobile_purchase_on_account_gtd>
             <hypercharge_wpf_purchase_on_account>
-                <active>0</active>                
-                <model>bithypercharge/purchaseaccount</model>                
+                <active>0</active>
+                <model>bithypercharge/purchaseaccount</model>
                 <order_status>pending_payment</order_status>
                 <title>Purchase On Account</title>
                 <allowspecific>0</allowspecific>
                 <mode>1</mode>
-                <use_iframe>1</use_iframe> 
-                <check_address>0</check_address>        
+                <use_iframe>1</use_iframe>
+                <check_address>0</check_address>
             </hypercharge_wpf_purchase_on_account>
             <hypercharge_wpf_sofort>
-                <active>0</active>                
+                <active>0</active>
                 <model>bithypercharge/sofort</model>
                 <order_status>pending_payment</order_status>
                 <title>Direct Pay24</title>
                 <allowspecific>0</allowspecific>
                 <mode>1</mode>
-                <use_iframe>1</use_iframe> 
+                <use_iframe>1</use_iframe>
                 <check_address>0</check_address>
             </hypercharge_wpf_sofort>
             <hypercharge_wpf_giropay>
-                <active>0</active>                
+                <active>0</active>
                 <model>bithypercharge/giropay</model>
                 <order_status>pending_payment</order_status>
                 <title>Giro Pay</title>
                 <allowspecific>0</allowspecific>
                 <mode>1</mode>
-                <use_iframe>1</use_iframe> 
+                <use_iframe>1</use_iframe>
                 <check_address>0</check_address>
             </hypercharge_wpf_giropay>
             <hypercharge_wpf_pay_in_advance>
-                <active>0</active>                
+                <active>0</active>
                 <model>bithypercharge/payinadvance</model>
                 <order_status>pending_payment</order_status>
                 <title>Pay In Advance</title>
                 <allowspecific>0</allowspecific>
                 <mode>1</mode>
-                <use_iframe>1</use_iframe> 
+                <use_iframe>1</use_iframe>
                 <check_address>0</check_address>
             </hypercharge_wpf_pay_in_advance>
             <hypercharge_wpf_pay_safe>
-                <active>0</active>                
+                <active>0</active>
                 <model>bithypercharge/paysafe</model>
                 <order_status>pending_payment</order_status>
                 <title>Pay Safe Card</title>
                 <allowspecific>0</allowspecific>
                 <mode>1</mode>
-                <use_iframe>1</use_iframe> 
+                <use_iframe>1</use_iframe>
                 <check_address>0</check_address>
             </hypercharge_wpf_pay_safe>
             <hypercharge_wpf_payment_on_delivery>
-                <active>0</active>                
+                <active>0</active>
                 <model>bithypercharge/paymentondelivery</model>
                 <order_status>pending_payment</order_status>
                 <title>Payment On Delivery</title>
                 <allowspecific>0</allowspecific>
                 <mode>1</mode>
-                <use_iframe>1</use_iframe> 
+                <use_iframe>1</use_iframe>
                 <check_address>0</check_address>
             </hypercharge_wpf_payment_on_delivery>
             <hypercharge_wpf_ideal>
