@@ -121,15 +121,6 @@
                 <model>bithypercharge/mobile</model>
                 <order_status>processing</order_status>
             </hypercharge_mobile>
-            <hypercharge_wpf_cc>
-                <active>0</active>
-                <model>bithypercharge/ccwpf</model>
-                <order_status>pending_payment</order_status>
-                <title>Credit Card (WPF)</title>
-                <allowspecific>0</allowspecific>
-                <mode>1</mode>
-                <use_iframe>0</use_iframe>
-            </hypercharge_wpf_cc>
             <hypercharge_mobile_cc>
                 <active>0</active>
                 <model>bithypercharge/cc</model>
@@ -272,6 +263,15 @@
                 <use_iframe>1</use_iframe>
                 <check_address>0</check_address>
             </hypercharge_wpf_paypal>
+            <hypercharge_wpf_cc>
+                <active>0</active>
+                <model>bithypercharge/ccwpf</model>
+                <order_status>pending_payment</order_status>
+                <title>Credit Card (WPF)</title>
+                <allowspecific>0</allowspecific>
+                <mode>1</mode>
+                <use_iframe>0</use_iframe>
+            </hypercharge_wpf_cc>
         </payment>
     </default>
 </config>
